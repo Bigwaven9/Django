@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 
 def edward(request):
-    return HttpResponse("<h1>Edward</h1>")
+    return HttpResponse("<h1>EDWARD</h1>")
 
 def index(request):
     return HttpResponse("<h1>Edward</h1>")
