@@ -37,5 +37,5 @@ usermod -aG sudo acs
 刮起容器
 Ctrl + p  Ctrl + q
 
-
+id_rsa.pub上传到github
 ```
