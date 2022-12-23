@@ -1,7 +1,10 @@
 from django.http import HttpResponse
 
+def edward(request):
+    return HttpResponse("<h1>Edward</h1>")
+
 def index(request):
-    return HttpResponse("This is my first website! * 2 + '\n'")
+    return HttpResponse("<h1>Edward</h1>")
 
 def play(request):
     line1 = '<h1 style="text-align: center">游戏界面</h1>'
