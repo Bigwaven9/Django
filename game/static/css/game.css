@@ -26,3 +26,8 @@
     letter-spacing: 0.5vw;
     cursor: pointer;
 }
+
+.ac-game-menu-field-item:hover {
+    transform: scale(1.2);
+    transition: 100ms;
+}
