@@ -22,6 +22,31 @@ class AcGameMenu {
         this.$single_mode = this.$menu.find('.ac-game-menu-field-item-single-mode');
         this.$multi_mode = this.$menu.find('.ac-game-menu-field-item-multi-mode');
         this.$settings = this.$menu.find('.ac-game-menu-field-item-settings');
+        this.start();
+    }
 
+    start() {
+        this.add_listenning_events();
+    }
+
+    add_listenning_events() {
+        let outer = this;
+        this.$single_mode.click(function(){
+            console.log("click single mode")
+        });
+        this.$nulti_mode.click(function(){
+            console.log("click nulti mode")
+        });
+        this.$settings.click(function(){
+            console.log("click settings")
+        });
+    }
+
+    show() {
+        this.$menu.show();
+    }
+
+    hide() {
+        this.$menu.hide();
     }
 }
