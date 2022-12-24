@@ -32,7 +32,8 @@ class AcGameMenu {
     add_listenning_events() {
         let outer = this;
         this.$single_mode.click(function(){
-            console.log("click single mode")
+            outer.hide();
+            outer.root.$playground.show();
         });
         this.$nulti_mode.click(function(){
             console.log("click nulti mode")
