@@ -27,22 +27,24 @@ class AcGameMenu {
     }
 
     start() {
-        this.add_listenning_events();
+        this.add_listening_events();
     }
 
-    add_listenning_events() {
+    add_listening_events() {
         let outer = this;
         this.$single_mode.click(function(){
             outer.hide();
-            outer.root.playground.show();
+            outer.root.playground.show("single mode");
         });
-        this.$nulti_mode.click(function(){
-            console.log("click nulti mode")
+        this.$multi_mode.click(function(){
+            outer.hide();
+            outer.root.playground.show("multi mode");
         });
         this.$settings.click(function(){
-            console.log("click settings")
+            outer.root.settings.logout_on_remote();
         });
     }
+
 
     show() {
         this.$menu.show();
@@ -57,7 +59,7 @@ class AcGamePlayground {
         this.root = root;
         this.$playground = $(`<div class="ac-game-playground"></div>`);
 
-        this.hide();
+        // this.hide();
         this.root.$ac_game.append(this.$playground);
 
         this.start();
@@ -79,7 +81,7 @@ export class AcGame{
     constructor(id) {
         this.id = id;
         this.$ac_game = $('#' + id);
-        this.menu = new AcGameMenu(this)
+        //  this.menu = new AcGameMenu(this)
         this.playground = new AcGamePlayground(this)
 
         this.start;
