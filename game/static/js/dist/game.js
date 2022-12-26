@@ -50,7 +50,8 @@ class AcGameMenu {
     hide() {
         this.$menu.hide();
     }
-}class AcGamePlayground {
+}
+class AcGamePlayground {
     constructor(root) {
         this.root = root;
         this.$playground = $(`<div class="ac-game-playground"></div>`);
@@ -72,7 +73,8 @@ class AcGameMenu {
     hide() {
         this.$playground.hide();
     }
-}export class AcGame{
+}
+export class AcGame{
     constructor(id) {
         this.id = id;
         this.$ac_game = $('#' + id);
