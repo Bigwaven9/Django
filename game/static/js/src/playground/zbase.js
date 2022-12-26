@@ -10,14 +10,13 @@ class AcGamePlayground {
     }
 
     start() {
-
     }
 
-    show() {
+    show() {  // 打开playground界面
         this.$playground.show();
     }
 
-    hide() {
+    hide() {  // 关闭playground界面
         this.$playground.hide();
     }
 }
