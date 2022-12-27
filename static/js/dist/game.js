@@ -471,7 +471,7 @@ class Settings {
                     </div>
                     <div class="ac-game-settings-submit">
                         <div class="ac-game-settings-item">
-                            <button>Sign in</button>
+                            <button class="ac-game-setting-item-click">Sign in</button>
                         </div>
                     </div>
                     <div class="ac-game-settings-error-message">
@@ -481,10 +481,12 @@ class Settings {
                     </div>
                     <br>
                     <div class="ac-game-settings-acwing">
-                        <img width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                         <br>
                         <div>
-                            You can sign in with.
+                            or you can sign in with.
+                            <br>
+                            <br>
+                            <img class="ac-game-settings-login-image" width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                         </div>
                     </div>
                 </div>
