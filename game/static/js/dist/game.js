@@ -18,6 +18,7 @@ class AcGameMenu {
     </div>
 </div>
 `);
+        this.$menu.hide();
         this.root.$ac_game.append(this.$menu);
         this.$single_mode = this.$menu.find('.ac-game-menu-field-item-single-mode');
         this.$multi_mode = this.$menu.find('.ac-game-menu-field-item-multi-mode');
@@ -426,10 +427,60 @@ class AcGamePlayground {
         this.$playground.hide();
     }
 }
-export class AcGame {
-    constructor(id) {
+class Settings {
+    constructor(root) {
+        this.root = root;
+        this.platform = "Web";
+        if (this.root.acos) this .platform = "ACAPP";
+        this.start();
+    }
+
+    start() {
+        this.getinfo();
+    }
+
+    register() {
+
+    }
+
+    login() {
+        
+    }
+
+    getinfo() {
+        let outer = this;
+        $.ajax({
+            url: "https://app4299.acapp.acwing.com.cn/settings/getinfo/",
+            type: "GET",
+            data: {
+                platform: outer.platform,
+            },
+            success: function(resp) {
+                console.log(resp);
+                if (resp.rusult === "success") {
+                    outer.hide();
+                    outer.root.menu.show();            
+                } else {
+                    outer.login();
+                }
+            }
+        });
+    }
+
+    hide() {
+
+    }
+
+    show() {
+
+    }
+} export class AcGame {
+    constructor(id, acos) {
         this.id = id;
         this.$ac_game = $('#' + id);
+        this.acos = acos;
+
+        this.settings = new Settings(this)
         this.menu = new AcGameMenu(this);
         this.playground = new AcGamePlayground(this);
 
