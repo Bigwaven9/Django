@@ -457,72 +457,72 @@ class Settings {
             <div class="ac-game-settings">
                 <div class="ac-game-settings-login">
                     <div class="ac-game-settings-title">
-                        登录
+                        Sign in to GG
                     </div>
                     <div class="ac-game-settings-username">
                         <div class="ac-game-settings-item">
-                            <input type="text" placeholder="用户名">
+                            <input type="text" placeholder="Username">
                         </div>
                     </div>
                     <div class="ac-game-settings-password">
                         <div class="ac-game-settings-item">
-                            <input type="password" placeholder="密码">
+                            <input type="password" placeholder="password">
                         </div>
                     </div>
                     <div class="ac-game-settings-submit">
                         <div class="ac-game-settings-item">
-                            <button>登录</button>
+                            <button>Sign in</button>
                         </div>
                     </div>
                     <div class="ac-game-settings-error-message">
                     </div>
                     <div class="ac-game-settings-option">
-                        注册
+                        Sign up
                     </div>
                     <br>
                     <div class="ac-game-settings-acwing">
                         <img width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                         <br>
                         <div>
-                            AcWing一键登录
+                            You can sign in with.
                         </div>
                     </div>
                 </div>
                 <div class="ac-game-settings-register">
                     <div class="ac-game-settings-title">
-                        注册
+                        Sign up
                     </div>
                     <div class="ac-game-settings-username">
                         <div class="ac-game-settings-item">
-                            <input type="text" placeholder="用户名">
+                            <input type="text" placeholder="Username">
                         </div>
                     </div>
                     <div class="ac-game-settings-password ac-game-settings-password-first">
                         <div class="ac-game-settings-item">
-                            <input type="password" placeholder="密码">
+                            <input type="password" placeholder="Password">
                         </div>
                     </div>
                     <div class="ac-game-settings-password ac-game-settings-password-second">
                         <div class="ac-game-settings-item">
-                            <input type="password" placeholder="确认密码">
+                            <input type="password" placeholder="Confirm your password">
                         </div>
                     </div>
                     <div class="ac-game-settings-submit">
                         <div class="ac-game-settings-item">
-                            <button>注册</button>
+                            <button>Sign up</button>
                         </div>
                     </div>
                     <div class="ac-game-settings-error-message">
                     </div>
                     <div class="ac-game-settings-option">
-                        登录
+                        Sign in
                     </div>
                     <br>
                     <div class="ac-game-settings-acwing">
                         <img width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                         <br>
                         <div>
-                            AcWing一键登录
+                            Sign in with Acwing
                         </div>
                     </div>
                 </div>
@@ -553,7 +553,7 @@ class Settings {
         this.$login.show();
     }
 
-    getinfo_web() {
+    getinfo() {
         let outer = this;
 
         $.ajax({
