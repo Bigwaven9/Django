@@ -1,8 +1,8 @@
  export class AcGame {
-    constructor(id, acos) {
+    constructor(id, acappos) {
         this.id = id;
         this.$ac_game = $('#' + id);
-        this.acos = acos;
+        this.acappos = acappos;
 
         this.settings = new Settings(this)
         this.menu = new AcGameMenu(this);

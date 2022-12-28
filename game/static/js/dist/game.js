@@ -4,21 +4,21 @@ class AcGameMenu {
         this.$menu = $(`
 <div class="ac-game-menu">
     <div class="ac-game-menu-field">
-        <div class="ac-game-menu-field-item ac-game-menu-field-item-single-mode">
+        <div class="ac-game-menu-field-item ac-game-menu-field-item-single-mode click-item">
             单人模式
         </div>
         <br>
-        <div class="ac-game-menu-field-item ac-game-menu-field-item-multi-mode">
+        <div class="ac-game-menu-field-item ac-game-menu-field-item-multi-mode click-item">
             多人模式
         </div>
         <br>
-        <div class="ac-game-menu-field-item ac-game-menu-field-item-settings">
+        <div class="ac-game-menu-field-item ac-game-menu-field-item-settings click-item">
             设置
         </div>
     </div>
 </div>
 `);
-        // this.$menu.hide();
+        this.$menu.hide();
         this.root.$ac_game.append(this.$menu);
         this.$single_mode = this.$menu.find('.ac-game-menu-field-item-single-mode');
         this.$multi_mode = this.$menu.find('.ac-game-menu-field-item-multi-mode');
@@ -40,8 +40,14 @@ class AcGameMenu {
         this.$multi_mode.click(function(){
             console.log("click multi mode");
         });
+
+
+
+        // this.$settings.click(function(){
+        //     console.log("click settings");
+        // });
         this.$settings.click(function(){
-            console.log("click settings");
+            outer.root.settings.logout_on_remote();
         });
     }
 
@@ -193,7 +199,7 @@ class Player extends AcGameObject {
 
         if (this.is_me) {
             this.img = new Image();
-            console.log(this.playground.root.settings.photo);
+            // console.log(this.playground.root.settings.photo);
             this.img.src = this.playground.root.settings.photo;
         }
     }
@@ -471,7 +477,7 @@ class Settings {
                     </div>
                     <div class="ac-game-settings-submit">
                         <div class="ac-game-settings-item">
-                            <button class="ac-game-setting-item-click">Sign in</button>
+                            <button class="click-item">Sign in</button>
                         </div>
                     </div>
                     <div class="ac-game-settings-error-message">
@@ -595,6 +601,71 @@ class Settings {
         });
     }
 
+    login_on_remote() {  // 在远程服务器上登录
+        let outer = this;
+        let username = this.$login_username.val();
+        let password = this.$login_password.val();
+        this.$login_error_message.empty();
+
+        $.ajax({
+            url: "https://app4299.acapp.acwing.com.cn/settings/login/",
+            type: "GET",
+            data: {
+                username: username,
+                password: password,
+            },
+            success: function(resp) {
+                if (resp.result === "success") {
+                    location.reload();
+                } else {
+                    outer.$login_error_message.html(resp.result);
+                }
+            }
+        });
+    }
+
+    register_on_remote() {  // 在远程服务器上注册
+        let outer = this;
+        let username = this.$register_username.val();
+        let password = this.$register_password.val();
+        let password_confirm = this.$register_password_confirm.val();
+        this.$register_error_message.empty();
+
+        $.ajax({
+            url: "https://app4299.acapp.acwing.com.cn/settings/register/",
+            type: "GET",
+            data: {
+                username: username,
+                password: password,
+                password_confirm: password_confirm,
+            },
+            success: function(resp) {
+                if (resp.result === "success") {
+                    location.reload();  // 刷新页面
+                } else {
+                    outer.$register_error_message.html(resp.result);
+                }
+            }
+        });
+    }
+
+    logout_on_remote() {  // 在远程服务器上登出
+        if (this.platform === "ACAPP") {
+            // this.root.acappos.api.window.close();
+            return false;
+        } else {
+            $.ajax({
+                url: "https://app4299.acapp.acwing.com.cn/settings/logout/",
+                type: "GET",
+                success: function(resp) {
+                    if (resp.result === "success") {
+                        location.reload();
+                    }
+                }
+            });
+        }
+    }
+
     register() {
         this.$login.hide();
         this.$register.show();
@@ -636,10 +707,10 @@ class Settings {
         this.Settings.show();
     }
 } export class AcGame {
-    constructor(id, acos) {
+    constructor(id, acappos) {
         this.id = id;
         this.$ac_game = $('#' + id);
-        this.acos = acos;
+        this.acappos = acappos;
 
         this.settings = new Settings(this)
         this.menu = new AcGameMenu(this);
