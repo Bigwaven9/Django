@@ -125,7 +125,8 @@ class Settings {
                     outer.hide();
                     outer.root.menu.show();
                 } else {
-                    outer.login();
+                    // outer.login();
+                    outer.register();
                 }
             }
         });
