@@ -486,7 +486,7 @@ class Settings {
                             or you can sign in with.
                             <br>
                             <br>
-                            <img class="ac-game-settings-login-image" width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
+                            <img class="ac-game-settings-login-image" width="30" src="https://app4299.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                         </div>
                     </div>
                 </div>
@@ -521,16 +521,17 @@ class Settings {
                     </div>
                     <br>
                     <div class="ac-game-settings-acwing">
-                        <img width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                         <br>
                         <div>
                             Sign in with Acwing
+                            <br>
+                            <img width="30" src="https://app4299.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                         </div>
                     </div>
                 </div>
             </div>
         `);
-        this.$login = this.$settings.find(".ac0game-settings-login");
+        this.$login = this.$settings.find(".ac-game-settings-login");
         this.$login.hide();
         this.$register = this.$settings.find(".ac-game-settings-register");
         this.$register.hide();
@@ -559,7 +560,7 @@ class Settings {
         let outer = this;
 
         $.ajax({
-            url: "https://app165.acapp.acwing.com.cn/settings/getinfo/",
+            url: "https://app4299.acapp.acwing.com.cn/settings/getinfo/",
             type: "GET",
             data: {
                 platform: outer.platform,
@@ -571,6 +572,7 @@ class Settings {
                     outer.hide();
                     outer.root.menu.show();
                 } else {
+                    // console.log("fialed");
                     // outer.login();
                     outer.register();
                 }

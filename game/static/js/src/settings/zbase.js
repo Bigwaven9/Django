@@ -40,7 +40,7 @@ class Settings {
                             or you can sign in with.
                             <br>
                             <br>
-                            <img class="ac-game-settings-login-image" width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
+                            <img class="ac-game-settings-login-image" width="30" src="https://app4299.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                         </div>
                     </div>
                 </div>
@@ -75,21 +75,36 @@ class Settings {
                     </div>
                     <br>
                     <div class="ac-game-settings-acwing">
-                        <img width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                         <br>
                         <div>
                             Sign in with Acwing
+                            <br>
+                            <img class=ac-game width="30" src="https://app4299.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                         </div>
                     </div>
                 </div>
             </div>
         `);
-        this.$login = this.$settings.find(".ac0game-settings-login");
+        this.$login = this.$settings.find(".ac-game-settings-login");
+        this.$login_username = this.$login.find(".ac-game-settings-username input");
+        this.$login_password = this.$login.find(".ac-game-settings-password input");
+        this.$login_submit = this.$login.find(".ac-game-settings-submit button");
+        this.$login_error_message = this.$login.find(".ac-game-settings-error-message");
+        this.$login_register = this.$login.find(".ac-game-settings-option");
         this.$login.hide();
+
+
         this.$register = this.$settings.find(".ac-game-settings-register");
+        this.$register_username = this.$register.find(".ac-game-settings-username input");
+        this.$register_password = this.$register.find(".ac-game-settings-password-first input");
+        this.$register_password_confirm = this.$register.find(".ac-game-settings-password-second input");
+        this.$register_submit = this.$register.find(".ac-game-settings-submit button");
+        this.$register_error_message = this.$register.find(".ac-game-settings-error-message");
+        this.$register_login = this.$register.find(".ac-game-settings-option");
         this.$register.hide();
 
 
+        this.$acwing_login = this.$settings.find('.ac-game-settings-acwing img');
 
         this.root.$ac_game.append(this.$settings);
         this.start();
@@ -113,7 +128,7 @@ class Settings {
         let outer = this;
 
         $.ajax({
-            url: "https://app165.acapp.acwing.com.cn/settings/getinfo/",
+            url: "https://app4299.acapp.acwing.com.cn/settings/getinfo/",
             type: "GET",
             data: {
                 platform: outer.platform,
@@ -125,6 +140,7 @@ class Settings {
                     outer.hide();
                     outer.root.menu.show();
                 } else {
+                    // console.log("fialed");
                     // outer.login();
                     outer.register();
                 }
