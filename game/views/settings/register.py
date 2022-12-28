@@ -16,7 +16,6 @@ def register(request):
         return JsonResponse({
             'result': "The passwords you entered do not match"
         })
-    print(User.objects.filter(username = username))
     if User.objects.filter(username = username).exists():
         return JsonResponse({
             'result': "The username has already existed"
