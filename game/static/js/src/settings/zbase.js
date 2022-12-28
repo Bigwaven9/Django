@@ -44,6 +44,9 @@ class Settings {
                         </div>
                     </div>
                 </div>
+
+
+
                 <div class="ac-game-settings-register">
                     <div class="ac-game-settings-title">
                         Sign up
@@ -112,6 +115,38 @@ class Settings {
 
     start() {
         this.getinfo();
+        this.add_listening_events();
+    }
+
+    add_listening_events() {
+        let outer = this;
+        this.add_listening_events_login();
+        this.add_listening_events_register();
+
+        this.$acwing_login.click(function() {
+            outer.acwing_login();
+        });
+    }
+
+    add_listening_events_login() {
+        let outer = this;
+
+        this.$login_register.click(function() {
+            outer.register();
+        });
+        this.$login_submit.click(function() {
+            outer.login_on_remote();
+        });
+    }
+
+    add_listening_events_register() {
+        let outer = this;
+        this.$register_login.click(function() {
+            outer.login();
+        });
+        this.$register_submit.click(function() {
+            outer.register_on_remote();
+        });
     }
 
     register() {
@@ -140,9 +175,7 @@ class Settings {
                     outer.hide();
                     outer.root.menu.show();
                 } else {
-                    // console.log("fialed");
-                    // outer.login();
-                    outer.register();
+                    outer.login();
                 }
             }
         });
