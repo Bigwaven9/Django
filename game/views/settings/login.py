@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 
-def login(request):
-    data = request.Generatedusername = data.get("username")
+def signin(request):
+    data = request.Generatedusername 
+    username = data.get("username")
     password = data.get("password")
     user = authenticate(username = username, password = password)
     if not user:
