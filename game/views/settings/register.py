@@ -7,7 +7,7 @@ def register(request):
     data = request.GET
     username = data.get("username", "").strip()
     password = data.get("password", "").strip()
-    password_confirm = data.get("password.confirm", "").strip()
+    password_confirm = data.get("password_confirm", "").strip()
     if not username or not password:
         return JsonResponse({
             'result': "Username and password are required"
@@ -16,7 +16,8 @@ def register(request):
         return JsonResponse({
             'result': "The passwords you entered do not match"
         })
-    if User.objects.filter(username = username).exits():
+    print(User.objects.filter(username = username))
+    if User.objects.filter(username = username).exists():
         return JsonResponse({
             'result': "The username has already existed"
         })
