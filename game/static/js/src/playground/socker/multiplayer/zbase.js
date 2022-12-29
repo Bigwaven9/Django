@@ -26,15 +26,16 @@ class MultiPlaerSocker {
                 outer.receive_move_to(uuid, data.tx, data.ty);
             } else if (event === "shoot_fireball") {
                 outer.receive_shoot_fireball(uuid, data.tx, data.ty, data.ball_uuid)
-            } else {
-                console.log("4");
+            } else if (event === "attack") {
+                console.log("receive attack")
+                outer.receive_attack(uuid, data.attackee_uuid, data.x, data.y, data.angle, data.damage, data.ball_uuid);
             }
         };
     }
 
 
     send_create_player(username, photo) {
-        let outer = this;
+        let outer = this; 
         this.ws.send(JSON.stringify({
             'event': "create_player",
             'uuid': outer.uuid,
@@ -106,4 +107,25 @@ class MultiPlaerSocker {
         }
     }
 
+    send_attack(attackee_uuid, x, y, angle, damage, ball_uuid) {
+        let outer = this; 
+        this.ws.send(JSON.stringify({
+            'event': "attack",
+            'attackee_uuid': attackee_uuid,
+            'uuid': outer.uuid,
+            'ball_uuid': ball_uuid,
+            'x': x,
+            'y': y,
+            'angle': angle,
+            'damage': damage,
+        }));
+    }
+
+    receive_attack(uuid, attackee_uuid, x, y, angle, damage, ball_uuid) {
+        let attacker = this.get_player(uuid);
+        let attackee = this.get_player(attackee_uuid);
+        if (attacker&& attackee) {
+            attackee.receive_attack(x, y, angle, damage, ball_uuid, attacker);
+        }
+    }
 }

@@ -15,8 +15,6 @@ class MultiPlayer(AsyncWebsocketConsumer):
     async def create_player(self, data):
         self.room_name = None
 
-        start = 0
-
         for i in range(1000):
             name = "room-%d" % (i)
             if not cache.has_key(name) or len(cache.get(name)) < settings.ROOM_CAPACITY:
@@ -78,6 +76,22 @@ class MultiPlayer(AsyncWebsocketConsumer):
                 'uuid': data['uuid'],
                 'tx': data['tx'],
                 'ty': data['ty'],
+                'ball_uuid': data['ball_uuid'],
+            }
+        )
+
+    async def attack(self, data):
+        await self.channel_layer.group_send(
+            self.room_name,
+            {
+                'type': "group_send_event",
+                'event': "attack",
+                'uuid': data['uuid'],
+                'attackee_uuid': data['attackee_uuid'],
+                'x': data['x'],
+                'y': data['y'],
+                'angle': data['angle'],
+                'damage': data['damage'],
                 'ball_uuid': data['ball_uuid'],
             }
         )
