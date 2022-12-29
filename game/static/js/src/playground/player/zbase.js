@@ -32,6 +32,14 @@ class Player extends AcGameObject {
     }
 
     start() {
+        this.playground.player_count ++ ;
+        this.playground.notice_board.write("Waiting to start, " + this.playground.player_count + " people are ready.");
+
+        if (this.playground.player_count >= 2) {
+            this.playground.state = "game_start";
+            this.playground.notice_board.destroy();
+        }
+
         if (this.character_type === "self") {
             this.add_listening_events();
         } else if(this.character_type === "bot") {
@@ -48,6 +56,11 @@ class Player extends AcGameObject {
         });
         const rect = outer.ctx.canvas.getBoundingClientRect();
         this.playground.game_map.$canvas.mousedown(function(e) {
+            if (outer.playground.state !== "game_start") {
+                return false;
+            }
+            
+
             if (e.which === 3) {
                 let tx = (e.clientX - rect.left) / outer.playground.scale;
                 let ty = (e.clientY - rect.top) / outer.playground.scale;
@@ -70,6 +83,10 @@ class Player extends AcGameObject {
         });
 
         $(window).keydown(function(e) {
+            if (outer.playground.state !== "game_start") {
+                return false;
+            }
+
             if (e.which === 81) {  // q
                 outer.cur_skill = "fireball";
                 return false;
@@ -168,7 +185,7 @@ class Player extends AcGameObject {
                 this.vx = this.vy = 0;
                 if (this.character_type === "bot") {
                     let tx = Math.random() * this.playground.width / this.playground.scale;
-                    let ty = Math.random() * this.playground.height / this/this.playground.scale;
+                    let ty = Math.random() * this.playground.height / this.playground.scale;
                     this.move_to(tx, ty);
                 }
             } else {
