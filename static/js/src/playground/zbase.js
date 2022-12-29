@@ -2,7 +2,7 @@ class AcGamePlayground {
     constructor(root) {
         this.root = root;
         this.$playground = $(`<div class="ac-game-playground"></div>`);
-
+        this.players = [];
         this.hide();
         this.root.$ac_game.append(this.$playground);
         this.start();
@@ -42,7 +42,6 @@ class AcGamePlayground {
 
         this.resize();
 
-        this.players = [];
         this.players.push(new Player(this, this.width / 2 / this.scale, 0.5, 0.05, "white", 0.15, "self", this.root.settings.username, this.root.settings.photo));
 
 
@@ -55,7 +54,7 @@ class AcGamePlayground {
             this.mps.uuid = this.players[0].uuid;
 
             this.mps.ws.onopen = function() {
-                outer.mps.send_created_player(outer.root.settings.username, outer.root.settings.photo);
+                outer.mps.send_create_player(outer.root.settings.username, outer.root.settings.photo);
             }
 
         }

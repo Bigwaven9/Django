@@ -61,7 +61,7 @@ class Player extends AcGameObject {
                 if (outer.cur_skill === "fireball") {    
                     let fireball = outer.shoot_fireball(tx, ty);
                     if (outer.playground.mode === "multi-mode") {
-                        outer.playground.mps.send_fireball(tx, ty, fireball.uuid);
+                        outer.playground.mps.send_shoot_fireball(tx, ty, fireball.uuid);
                     }
                 }
 

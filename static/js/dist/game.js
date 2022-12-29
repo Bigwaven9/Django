@@ -252,7 +252,7 @@ class Player extends AcGameObject {
                 if (outer.cur_skill === "fireball") {    
                     let fireball = outer.shoot_fireball(tx, ty);
                     if (outer.playground.mode === "multi-mode") {
-                        outer.playground.mps.send_fireball(tx, ty, fireball.uuid);
+                        outer.playground.mps.send_shoot_fireball(tx, ty, fireball.uuid);
                     }
                 }
 
@@ -499,18 +499,21 @@ class MultiPlaerSocker {
             if (uuid === outer.uuid) return false;
 
             let event = data.event;
+
             if (event === "create_player") {
                 outer.receive_create_player(uuid, data.username, data.photo);
             } else if (event === "move_to") {
                 outer.receive_move_to(uuid, data.tx, data.ty);
-            } else if (event === "fireball") {
-                outer.receive_fireball(data.tx, data.ty, data.ball_uuid)
+            } else if (event === "shoot_fireball") {
+                outer.receive_shoot_fireball(uuid, data.tx, data.ty, data.ball_uuid)
+            } else {
+                console.log("4");
             }
         };
     }
 
 
-    send_created_player(username, photo) {
+    send_create_player(username, photo) {
         let outer = this;
         this.ws.send(JSON.stringify({
             'event': "create_player",
@@ -554,7 +557,6 @@ class MultiPlaerSocker {
             if (player.uuid === uuid)
                 return player;
         }
-
         return null;
     }
 
@@ -565,10 +567,10 @@ class MultiPlaerSocker {
         }
     }
 
-    send_fireball(tx, ty, ball_uuid) {
-        let outer = this;
+    send_shoot_fireball(tx, ty, ball_uuid) {
+        let outer = this; 
         this.ws.send(JSON.stringify({
-            'event': "fireball",
+            'event': "shoot_fireball",
             'uuid': outer.uuid,
             'ball_uuid': ball_uuid,
             'tx': tx,
@@ -576,18 +578,19 @@ class MultiPlaerSocker {
         }));
     }
 
-    receive_fireball(uuid, tx, ty, ball_uuid) {
+    receive_shoot_fireball(uuid, tx, ty, ball_uuid) {
         let player = this.get_player(uuid);
         if (player) {
             let fireball = player.shoot_fireball(tx, ty);
             fireball.uuid = ball_uuid;
         }
     }
+
 }class AcGamePlayground {
     constructor(root) {
         this.root = root;
         this.$playground = $(`<div class="ac-game-playground"></div>`);
-
+        this.players = [];
         this.hide();
         this.root.$ac_game.append(this.$playground);
         this.start();
@@ -627,7 +630,6 @@ class MultiPlaerSocker {
 
         this.resize();
 
-        this.players = [];
         this.players.push(new Player(this, this.width / 2 / this.scale, 0.5, 0.05, "white", 0.15, "self", this.root.settings.username, this.root.settings.photo));
 
 
@@ -640,7 +642,7 @@ class MultiPlaerSocker {
             this.mps.uuid = this.players[0].uuid;
 
             this.mps.ws.onopen = function() {
-                outer.mps.send_created_player(outer.root.settings.username, outer.root.settings.photo);
+                outer.mps.send_create_player(outer.root.settings.username, outer.root.settings.photo);
             }
 
         }

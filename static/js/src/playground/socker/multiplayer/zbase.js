@@ -19,18 +19,21 @@ class MultiPlaerSocker {
             if (uuid === outer.uuid) return false;
 
             let event = data.event;
+
             if (event === "create_player") {
                 outer.receive_create_player(uuid, data.username, data.photo);
             } else if (event === "move_to") {
                 outer.receive_move_to(uuid, data.tx, data.ty);
-            } else if (event === "fireball") {
-                outer.receive_fireball(data.tx, data.ty, data.ball_uuid)
+            } else if (event === "shoot_fireball") {
+                outer.receive_shoot_fireball(uuid, data.tx, data.ty, data.ball_uuid)
+            } else {
+                console.log("4");
             }
         };
     }
 
 
-    send_created_player(username, photo) {
+    send_create_player(username, photo) {
         let outer = this;
         this.ws.send(JSON.stringify({
             'event': "create_player",
@@ -74,7 +77,6 @@ class MultiPlaerSocker {
             if (player.uuid === uuid)
                 return player;
         }
-
         return null;
     }
 
@@ -85,10 +87,10 @@ class MultiPlaerSocker {
         }
     }
 
-    send_fireball(tx, ty, ball_uuid) {
-        let outer = this;
+    send_shoot_fireball(tx, ty, ball_uuid) {
+        let outer = this; 
         this.ws.send(JSON.stringify({
-            'event': "fireball",
+            'event': "shoot_fireball",
             'uuid': outer.uuid,
             'ball_uuid': ball_uuid,
             'tx': tx,
@@ -96,11 +98,12 @@ class MultiPlaerSocker {
         }));
     }
 
-    receive_fireball(uuid, tx, ty, ball_uuid) {
+    receive_shoot_fireball(uuid, tx, ty, ball_uuid) {
         let player = this.get_player(uuid);
         if (player) {
             let fireball = player.shoot_fireball(tx, ty);
             fireball.uuid = ball_uuid;
         }
     }
+
 }
