@@ -66,12 +66,9 @@ class AcGameObject {
         this.has_called_start = false;  // 是否执行过start函数
         this.timedelta = 0;  // 当前帧距离上一帧的时间间隔
         this.uuid = this.create_uuid();
-
-        // console.log(this.uuid);
     }
 
     create_uuid() {
-        // console.log("created");
         let ret = "";
         for (let i = 0; i < 10; i ++ ) {
             let x = parseInt(Math.floor(Math.random() * 10));
@@ -194,9 +191,6 @@ class Particle extends AcGameObject {
 }
 class Player extends AcGameObject {
     constructor(playground, x, y, radius, color, speed, character_type, username, photo) {
-
-        console.log(character_type, username, photo);
-
         super();
         this.playground = playground;
         this.ctx = this.playground.game_map.ctx;
@@ -458,8 +452,6 @@ class MultiPlaerSocker {
 
         this.ws.onmessage = function(e) {
             let data = JSON.parse(e.data);
-            console.log(data);
-            
             let uuid = data.uuid;
             if (uuid === outer.uuid) return false;
 

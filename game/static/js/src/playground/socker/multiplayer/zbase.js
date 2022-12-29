@@ -15,8 +15,6 @@ class MultiPlaerSocker {
 
         this.ws.onmessage = function(e) {
             let data = JSON.parse(e.data);
-            console.log(data);
-            
             let uuid = data.uuid;
             if (uuid === outer.uuid) return false;
 
