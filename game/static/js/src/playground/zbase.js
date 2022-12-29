@@ -31,11 +31,9 @@ class AcGamePlayground {
         if (this.game_map) this.game_map.resize();
     }
 
-    show(mode) {  // 打开playground界面
+    show(mode) {
         let outer = this;
         this.$playground.show();
-
-        this.resize();
 
         this.width = this.$playground.width();
         this.height = this.$playground.height();
@@ -63,7 +61,7 @@ class AcGamePlayground {
 
     }
 
-    hide() {  // 关闭playground界面
+    hide() {
         this.$playground.hide();
     }
 }

@@ -34,26 +34,26 @@ class AcGameMenu {
     add_listening_events() {
         let outer = this;
         
-        this.$single_mode.click(function(){
+        this.$single_mode.click(function() {
             outer.hide();
             outer.root.playground.show("single-mode");
         });
 
-        this.$multi_mode.click(function(){
+        this.$multi_mode.click(function() {
             outer.hide();
             outer.root.playground.show("multi-mode");
         });
 
-        this.$settings.click(function(){
+        this.$settings.click(function() {
             outer.root.settings.logout_on_remote();
         });
     }
 
-    show() {  // 显示menu界面
+    show() {
         this.$menu.show();
     }
 
-    hide() {  // 关闭menu界面
+    hide() {
         this.$menu.hide();
     }
 }
@@ -67,7 +67,7 @@ class AcGameObject {
         this.timedelta = 0;  // 当前帧距离上一帧的时间间隔
         this.uuid = this.create_uuid();
 
-        console.log(this.uuid);
+        // console.log(this.uuid);
     }
 
     create_uuid() {
@@ -194,6 +194,9 @@ class Particle extends AcGameObject {
 }
 class Player extends AcGameObject {
     constructor(playground, x, y, radius, color, speed, character_type, username, photo) {
+
+        console.log(character_type, username, photo);
+
         super();
         this.playground = playground;
         this.ctx = this.playground.game_map.ctx;
@@ -226,7 +229,7 @@ class Player extends AcGameObject {
     start() {
         if (this.character_type === "self") {
             this.add_listening_events();
-        } else {
+        } else if(this.character_type === "bot") {
             let tx = Math.random() * this.playground.width / this.playground.scale;
             let ty = Math.random() * this.playground.height / this.playground.scale;
             this.move_to(tx, ty);
@@ -450,25 +453,49 @@ class MultiPlaerSocker {
         this.receive();
     }
 
-    receive() {
+    receive () {
+        let outer = this;
+
         this.ws.onmessage = function(e) {
             let data = JSON.parse(e.data);
             console.log(data);
-        }
+            
+            let uuid = data.uuid;
+            if (uuid === outer.uuid) return false;
+
+            let event = data.event;
+            if (event === "create_player") {
+                outer.receive_create_player(uuid, data.username, data.photo);
+            }
+        };
     }
+
 
     send_created_player(username, photo) {
         let outer = this;
         this.ws.send(JSON.stringify({
-            'event': "created",
+            'event': "create_player",
             'uuid': outer.uuid,
             'username': username,
             'photo':photo,
         }));
     }
 
-    reveice_created_player() {
+    receive_create_player(uuid, username, photo) {
+        let player = new Player(
+            this.playground,
+            this.playground.width / 2 / this.playground.scale,
+            0.5,
+            0.05,
+            "white",
+            0.15,
+            "enemy",
+            username,
+            photo,
+        );
 
+        player.uuid = uuid;
+        this.playground.players.push(player);
     }
 }class AcGamePlayground {
     constructor(root) {
@@ -503,11 +530,9 @@ class MultiPlaerSocker {
         if (this.game_map) this.game_map.resize();
     }
 
-    show(mode) {  // 打开playground界面
+    show(mode) {
         let outer = this;
         this.$playground.show();
-
-        this.resize();
 
         this.width = this.$playground.width();
         this.height = this.$playground.height();
@@ -535,7 +560,7 @@ class MultiPlaerSocker {
 
     }
 
-    hide() {  // 关闭playground界面
+    hide() {
         this.$playground.hide();
     }
 }
@@ -656,7 +681,6 @@ class Settings {
 
     start() {
         this.getinfo();
-        this.add_listening_events();
     }
 
     add_listening_events() {
@@ -765,26 +789,45 @@ class Settings {
         this.$login.show();
     }
 
-    getinfo() {
+    getinfo_acapp() {
         let outer = this;
 
         $.ajax({
-            url: "https://app4299.acapp.acwing.com.cn/settings/getinfo/",
+            url: "https://app165.acapp.acwing.com.cn/settings/acwing/acapp/apply_code/",
             type: "GET",
-            data: {
-                platform: outer.platform,
-            },
             success: function(resp) {
                 if (resp.result === "success") {
-                    outer.username = resp.username;
-                    outer.photo = resp.photo;
-                    outer.hide();
-                    outer.root.menu.show();
-                } else {
-                    outer.login();
+                    outer.acapp_login(resp.appid, resp.redirect_uri, resp.scope, resp.state);
                 }
             }
         });
+    }
+
+    getinfo() {
+        if (this.platform === "ACAPP") {
+            this.getinfo_acapp();
+        } else {
+            let outer = this;
+
+            $.ajax({
+                url: "https://app4299.acapp.acwing.com.cn/settings/getinfo/",
+                type: "GET",
+                data: {
+                    platform: outer.platform,
+                },
+                success: function(resp) {
+                    if (resp.result === "success") {
+                        outer.username = resp.username;
+                        outer.photo = resp.photo;
+                        outer.hide();
+                        outer.root.menu.show();
+                    } else {
+                        outer.login();
+                    }
+                }
+            });
+            this.add_listening_events();
+        }        
     }
 
 

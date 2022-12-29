@@ -115,7 +115,6 @@ class Settings {
 
     start() {
         this.getinfo();
-        this.add_listening_events();
     }
 
     add_listening_events() {
@@ -224,26 +223,45 @@ class Settings {
         this.$login.show();
     }
 
-    getinfo() {
+    getinfo_acapp() {
         let outer = this;
 
         $.ajax({
-            url: "https://app4299.acapp.acwing.com.cn/settings/getinfo/",
+            url: "https://app165.acapp.acwing.com.cn/settings/acwing/acapp/apply_code/",
             type: "GET",
-            data: {
-                platform: outer.platform,
-            },
             success: function(resp) {
                 if (resp.result === "success") {
-                    outer.username = resp.username;
-                    outer.photo = resp.photo;
-                    outer.hide();
-                    outer.root.menu.show();
-                } else {
-                    outer.login();
+                    outer.acapp_login(resp.appid, resp.redirect_uri, resp.scope, resp.state);
                 }
             }
         });
+    }
+
+    getinfo() {
+        if (this.platform === "ACAPP") {
+            this.getinfo_acapp();
+        } else {
+            let outer = this;
+
+            $.ajax({
+                url: "https://app4299.acapp.acwing.com.cn/settings/getinfo/",
+                type: "GET",
+                data: {
+                    platform: outer.platform,
+                },
+                success: function(resp) {
+                    if (resp.result === "success") {
+                        outer.username = resp.username;
+                        outer.photo = resp.photo;
+                        outer.hide();
+                        outer.root.menu.show();
+                    } else {
+                        outer.login();
+                    }
+                }
+            });
+            this.add_listening_events();
+        }        
     }
 
 
