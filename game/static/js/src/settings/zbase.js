@@ -198,7 +198,7 @@ class Settings {
 
     logout_on_remote() {  // 在远程服务器上登出
         if (this.platform === "ACAPP") {
-            // this.root.acappos.api.window.close();
+            this.root.acappos.api.window.close();
             return false;
         } else {
             $.ajax({

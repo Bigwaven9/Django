@@ -5,15 +5,15 @@ class AcGameMenu {
 <div class="ac-game-menu">
     <div class="ac-game-menu-field">
         <div class="ac-game-menu-field-item ac-game-menu-field-item-single-mode click-item">
-            单人模式
+            Single-mode
         </div>
         <br>
         <div class="ac-game-menu-field-item ac-game-menu-field-item-multi-mode click-item">
-            多人模式
+            Multi-mode
         </div>
         <br>
         <div class="ac-game-menu-field-item ac-game-menu-field-item-settings click-item">
-            设置
+            Sign out
         </div>
     </div>
 </div>
