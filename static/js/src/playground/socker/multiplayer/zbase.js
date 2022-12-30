@@ -132,6 +132,7 @@ class MultiPlaerSocker {
 
     send_flash(tx, ty) {
         let outer = this;
+        console
         this.ws.send(JSON.stringify({
             'event': "flash",
             'uuid': outer.uuid,
