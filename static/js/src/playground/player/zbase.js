@@ -28,6 +28,13 @@ class Player extends AcGameObject {
         if (this.character_type !== "bot") {
             this.img = new Image();
             this.img.src = this.photo;
+            console.log(this.photo);
+        }
+
+        if (this.character_type === "self") {
+            this.fireball_cd = 2;
+            this.fireball_image = new Image();
+            this.fireball_image.src = "app4299.acapp.acwing.com.cn/static/image/skill/fireball.png";
         }
     }
 
@@ -69,6 +76,10 @@ class Player extends AcGameObject {
                     outer.playground.mps.send_move_to(tx, ty);
                 }
             } else if (e.which === 1) {
+                if (outer.fireball_cd > outer.eps) {
+                    return false;
+                }
+                
                 let tx = (e.clientX - rect.left) / outer.playground.scale;
                 let ty = (e.clientY - rect.top) / outer.playground.scale;
                 if (outer.cur_skill === "fireball") {    
@@ -84,6 +95,10 @@ class Player extends AcGameObject {
 
         $(window).keydown(function(e) {
             if (outer.playground.state !== "game_start") {
+                return false;
+            }
+
+            if (this.fireball_cd > outer.eps) {
                 return false;
             }
 
@@ -104,6 +119,7 @@ class Player extends AcGameObject {
         let move_length = 1;
         let fireball = new FireBall(this.playground, this, x, y, radius, vx, vy, color, speed, move_length, 0.01);
         this.fireballs.push(fireball);
+        this.fireball_cd = 0.5;
         return fireball;
     }
 
@@ -160,12 +176,22 @@ class Player extends AcGameObject {
     }
 
     update() {
+        this.spent_time += this.timedelta / 1000;
+
+        if (this.character_type === "self" && this.playground.state === "game_start") {
+            this.update_cd();
+        }
         this.update_move();
         this.render();
     }
 
+    update_cd() {
+        this.fireball_cd -= this.timedelta / 1000;
+        this.fireball_cd = Math.max(this.fireball_cd, 0);
+    }
+
     update_move() {
-        this.spent_time += this.timedelta / 1000;
+        
         if (this.character_type === "bot" && this.spent_time > 4 && Math.random() < 1 / 300.0) {
             let player = this.playground.players[Math.floor(Math.random() * this.playground.players.length)];
             let tx = player.x + player.speed * this.vx * this.timedelta / 1000 * 0.3;
@@ -213,6 +239,24 @@ class Player extends AcGameObject {
             this.ctx.fillStyle = this.color;
             this.ctx.fill();
         }
+
+        if (this.character_type === "self" && this.playground.state === "game_start") {
+            this.render_skill_cd()
+        } 
+    }
+
+    render_skill_cd() {
+        console.log("test skill cd");
+        let x = 1.5, y = 0.9, r = 0.04;
+        let scale = this.playground.scale;
+        this.ctx.save(); 
+        this.ctx.beginPath();
+        this.ctx.arc(x * scale, y * scale, r * scale, 0, Math.PI * 2, false);
+        this.ctx.stroke();
+        this.ctx.clip();
+        console.log(this.fireball_image);
+        this.ctx.drawImage(this.fireball_image, (x - r) * scale, (y - r) * scale, r * scale * 2, r * scale * 2); 
+        this.ctx.restore();
     }
 
     on_destroy() {
