@@ -41,3 +41,12 @@ Ctrl + p  Ctrl + q
 
 id_rsa.pub上传到github
 ```
+```
+redis
+
+def clear():
+    for key in cache.keys("*"):
+        cache.delete(key)
+        
+ 
+```
