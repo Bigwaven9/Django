@@ -96,7 +96,7 @@ class Player extends AcGameObject {
                     }
                     outer.flash(tx, ty);
                     if (outer.playground.mode === "multi-mode") {
-                        outer.playground.mps.send_flash(this.uuid, tx, ty);
+                        outer.playground.mps.send_flash(tx, ty);
                     }
                 }
 
