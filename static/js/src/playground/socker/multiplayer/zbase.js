@@ -27,8 +27,9 @@ class MultiPlaerSocker {
             } else if (event === "shoot_fireball") {
                 outer.receive_shoot_fireball(uuid, data.tx, data.ty, data.ball_uuid)
             } else if (event === "attack") {
-                console.log("receive attack")
                 outer.receive_attack(uuid, data.attackee_uuid, data.x, data.y, data.angle, data.damage, data.ball_uuid);
+            } else if (event === "flash") {
+                outer.receive_flash(uuid, data.tx, data.ty);
             }
         };
     }
@@ -126,6 +127,23 @@ class MultiPlaerSocker {
         let attackee = this.get_player(attackee_uuid);
         if (attacker&& attackee) {
             attackee.receive_attack(x, y, angle, damage, ball_uuid, attacker);
+        }
+    }
+
+    send_flash(tx, ty) {
+        let outer = this;
+        this.ws.send(JSON.stringify({
+            'event': "flash",
+            'uuid': outer.uuid,
+            'tx': tx,
+            'ty': ty,
+        }));
+    }
+
+    receive_flash(uuid, tx, ty) {
+        let player = this.get_player(uuid);
+        if (player) {
+            player.flash(tx, ty);
         }
     }
 }

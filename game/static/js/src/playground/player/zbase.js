@@ -28,13 +28,16 @@ class Player extends AcGameObject {
         if (this.character_type !== "bot") {
             this.img = new Image();
             this.img.src = this.photo;
-            console.log(this.photo);
         }
 
         if (this.character_type === "self") {
             this.fireball_cd = 2;
-            this.fireball_image = new Image();
-            this.fireball_image.src = "https://app4299.acapp.acwing.com.cn/static/image/skill/fireball.png";
+            this.fireball_img = new Image();
+            this.fireball_img.src = "https://app4299.acapp.acwing.com.cn/static/image/skill/fireball.png";
+
+            this.flash_cd = 5;
+            this.flash_img = new Image();
+            this.flash_img.src = "https://app4299.acapp.acwing.com.cn/static/image/skill/flash.png";
         }
     }
 
@@ -76,16 +79,24 @@ class Player extends AcGameObject {
                     outer.playground.mps.send_move_to(tx, ty);
                 }
             } else if (e.which === 1) {
-                if (outer.fireball_cd > outer.eps) {
-                    return false;
-                }
-                
                 let tx = (e.clientX - rect.left) / outer.playground.scale;
                 let ty = (e.clientY - rect.top) / outer.playground.scale;
-                if (outer.cur_skill === "fireball") {    
+                if (outer.cur_skill === "fireball") {   
+                    if (outer.fireball_cd > outer.eps) {
+                        return false;
+                    } 
                     let fireball = outer.shoot_fireball(tx, ty);
                     if (outer.playground.mode === "multi-mode") {
                         outer.playground.mps.send_shoot_fireball(tx, ty, fireball.uuid);
+                    }
+                } else if (outer.cur_skill === "flash") {
+
+                    if (outer.flash_cd > outer.eps) {
+                        return false;
+                    }
+                    outer.flash(tx, ty);
+                    if (outer.playground.mode === "multi-mode") {
+                        outer.playground.mps.send_flash(this.uuid, tx, ty);
                     }
                 }
 
@@ -95,15 +106,22 @@ class Player extends AcGameObject {
 
         $(window).keydown(function(e) {
             if (outer.playground.state !== "game_start") {
-                return false;
+                return true;
             }
 
-            if (this.fireball_cd > outer.eps) {
-                return false;
-            }
+            
 
-            if (e.which === 81) {  // q
+            if (e.which === 81) {
+                if (this.fireball_cd > outer.eps) {
+                    return true;
+                }
                 outer.cur_skill = "fireball";
+                return false;
+            } else if (e.which === 70) {
+                if (this.flash_cd > outer.eps) {
+                    return true;
+                }
+                outer.cur_skill = "flash";
                 return false;
             }
         });
@@ -119,7 +137,9 @@ class Player extends AcGameObject {
         let move_length = 1;
         let fireball = new FireBall(this.playground, this, x, y, radius, vx, vy, color, speed, move_length, 0.01);
         this.fireballs.push(fireball);
+
         this.fireball_cd = 0.5;
+
         return fireball;
     }
 
@@ -131,6 +151,17 @@ class Player extends AcGameObject {
                 break;
             }
         }
+    }
+
+    flash(tx, ty) {
+        let d = this.get_dist(this.x, this.y, tx, ty);
+        d = Math.min(d, 0.15);
+        let angle = Math.atan2(ty - this.y, tx - this.x);
+        this.x += d * Math.cos(angle);
+        this.y += d * Math.sin(angle);
+
+        this.flash_cd = 5;
+        this.move_length = 0;
     }
 
     get_dist(x1, y1, x2, y2) {
@@ -188,6 +219,9 @@ class Player extends AcGameObject {
     update_cd() {
         this.fireball_cd -= this.timedelta / 1000;
         this.fireball_cd = Math.max(this.fireball_cd, 0);
+
+        this.flash_cd -= this.timedelta / 1000;
+        this.flash_cd = Math.max(this.flash_cd, 0);
     }
 
     update_move() {
@@ -246,20 +280,51 @@ class Player extends AcGameObject {
     }
 
     render_skill_cd() {
-        console.log("test skill cd");
-        let x = 1.5, y = 0.9, r = 0.04;
         let scale = this.playground.scale;
-        this.ctx.save(); 
+        let x = 0.8, y = 0.9, r = 0.04;
+
+        this.ctx.save();
         this.ctx.beginPath();
         this.ctx.arc(x * scale, y * scale, r * scale, 0, Math.PI * 2, false);
         this.ctx.stroke();
         this.ctx.clip();
-        console.log(this.fireball_image);
-        this.ctx.drawImage(this.fireball_image, (x - r) * scale, (y - r) * scale, r * scale * 2, r * scale * 2); 
+        this.ctx.drawImage(this.fireball_img, (x - r) * scale, (y - r) * scale, r * 2 * scale, r * 2 * scale);
         this.ctx.restore();
+
+        if (this.fireball_cd > 0) {
+
+            console.log("testing");
+            this.ctx.beginPath();
+            this.ctx.moveTo(x * scale, y * scale);
+            this.ctx.arc(x * scale, y * scale, r * scale, 0 - Math.PI / 2, Math.PI * 2 * (1 - this.fireball_coldtime / 0.5) - Math.PI / 2, true);
+            this.ctx.lineTo(x * scale, y * scale);
+            this.ctx.fillStyle = "rgba(255, 255, 255, 1)";
+            this.ctx.fill();
+        }
+
+        x = 0.9
+        this.ctx.save();
+        this.ctx.beginPath();
+        this.ctx.arc(x * scale, y * scale, r * scale, 0, Math.PI * 2, false);
+        this.ctx.stroke();
+        this.ctx.clip();
+        this.ctx.drawImage(this.flash_img, (x - r) * scale, (y - r) * scale, r * 2 * scale, r * 2 * scale);
+        this.ctx.restore();
+
+        if (this.fireball_cd > 0) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(x * scale, y * scale);
+            this.ctx.arc(x * scale, y * scale, r * scale, 0 - Math.PI / 2, Math.PI * 2 * (1 - this.flash_coldtime / 5) - Math.PI / 2, true);
+            this.ctx.lineTo(x * scale, y * scale);
+            this.ctx.fillStyle = "rgba(0, 0, 255, 0.6)";
+            this.ctx.fill();
+        }
     }
 
     on_destroy() {
+        if (this.character_type === "self") {
+            this.playground.state = "game_over";
+        }
         for (let i = 0; i < this.playground.players.length; i ++ ) {
             if (this.playground.players[i] === this) {
                 this.playground.players.splice(i, 1);
