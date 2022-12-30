@@ -48,5 +48,14 @@ def clear():
     for key in cache.keys("*"):
         cache.delete(key)
         
+
+django channel
+
+daphne -b 0.0.0.0 -p 5015 acapp.asgi:application
+
+
+uwsgi
+
+uwsgi --ini scripts/uwsgi.ini
  
 ```
