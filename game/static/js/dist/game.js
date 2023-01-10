@@ -511,7 +511,7 @@ class Player extends AcGameObject {
 
         if (this.fireball_cd > 0) {
 
-            console.log("testing");
+            console.log("test fireball cd");
             this.ctx.beginPath();
             this.ctx.moveTo(x * scale, y * scale);
             this.ctx.arc(x * scale, y * scale, r * scale, 0 - Math.PI / 2, Math.PI * 2 * (1 - this.fireball_coldtime / 0.5) - Math.PI / 2, true);
@@ -529,7 +529,8 @@ class Player extends AcGameObject {
         this.ctx.drawImage(this.flash_img, (x - r) * scale, (y - r) * scale, r * 2 * scale, r * 2 * scale);
         this.ctx.restore();
 
-        if (this.fireball_cd > 0) {
+        if (this.flash_cd > 0) {
+            console.log("test flash cd");
             this.ctx.beginPath();
             this.ctx.moveTo(x * scale, y * scale);
             this.ctx.arc(x * scale, y * scale, r * scale, 0 - Math.PI / 2, Math.PI * 2 * (1 - this.flash_coldtime / 5) - Math.PI / 2, true);
