@@ -1,5 +1,4 @@
-README as notes
-
+NOTES
 ```
 免密登陆
 
