@@ -35,7 +35,7 @@ class Player extends AcGameObject {
             this.fireball_img = new Image();
             this.fireball_img.src = "https://app4299.acapp.acwing.com.cn/static/image/skill/fireball.png";
 
-            this.flash_cd = 5;
+            this.flash_cd = 3;
             this.flash_img = new Image();
             this.flash_img.src = "https://app4299.acapp.acwing.com.cn/static/image/skill/flash.png";
         }
@@ -160,7 +160,7 @@ class Player extends AcGameObject {
         this.x += d * Math.cos(angle);
         this.y += d * Math.sin(angle);
 
-        this.flash_cd = 5;
+        this.flash_cd = 3;
         this.move_length = 0;
     }
 
@@ -281,7 +281,7 @@ class Player extends AcGameObject {
 
     render_skill_cd() {
         let scale = this.playground.scale;
-        let x = 0.8, y = 0.9, r = 0.04;
+        let x = 1.5, y = 0.9, r = 0.04;
 
         this.ctx.save();
         this.ctx.beginPath();
@@ -292,17 +292,15 @@ class Player extends AcGameObject {
         this.ctx.restore();
 
         if (this.fireball_cd > 0) {
-
-            console.log("test fireball cd");
             this.ctx.beginPath();
             this.ctx.moveTo(x * scale, y * scale);
-            this.ctx.arc(x * scale, y * scale, r * scale, 0 - Math.PI / 2, Math.PI * 2 * (1 - this.fireball_coldtime / 0.5) - Math.PI / 2, true);
+            this.ctx.arc(x * scale, y * scale, r * scale, 0 - Math.PI / 2, Math.PI * 2 * (1 - this.fireball_cd / 3) - Math.PI / 2, true);
             this.ctx.lineTo(x * scale, y * scale);
-            this.ctx.fillStyle = "rgba(255, 255, 255, 1)";
-            this.ctx.fill();
+            this.ctx.fillStyle = "rgba(0, 0, 255, 0.6)";
+            this.ctx.fill();q
         }
 
-        x = 0.9
+        x = 1.62, y = 0.9, r = 0.04;
         this.ctx.save();
         this.ctx.beginPath();
         this.ctx.arc(x * scale, y * scale, r * scale, 0, Math.PI * 2, false);
@@ -312,10 +310,9 @@ class Player extends AcGameObject {
         this.ctx.restore();
 
         if (this.flash_cd > 0) {
-            console.log("test flash cd");
             this.ctx.beginPath();
             this.ctx.moveTo(x * scale, y * scale);
-            this.ctx.arc(x * scale, y * scale, r * scale, 0 - Math.PI / 2, Math.PI * 2 * (1 - this.flash_coldtime / 5) - Math.PI / 2, true);
+            this.ctx.arc(x * scale, y * scale, r * scale, 0 - Math.PI / 2, Math.PI * 2 * (1 - this.flash_cd / 3) - Math.PI / 2, true);
             this.ctx.lineTo(x * scale, y * scale);
             this.ctx.fillStyle = "rgba(0, 0, 255, 0.6)";
             this.ctx.fill();

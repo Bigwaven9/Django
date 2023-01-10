@@ -23,9 +23,9 @@ class AcGamePlayground {
     resize() {
         this.width = this.$playground.width();
         this.height = this.$playground.height();
-        let unit = Math.min(this.width / 16, this.height / 16)
+        let unit = Math.min(this.width / 16, this.height / 9)
         this.width = unit * 16;
-        this.height = unit * 16;
+        this.height = unit * 9;
         this.scale = this.height;
 
         if (this.game_map) this.game_map.resize();
