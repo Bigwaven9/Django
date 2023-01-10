@@ -35,7 +35,7 @@ adduser acs
 usermod -aG sudo acs
 
 
-刮起容器
+挂起容器
 Ctrl + p  Ctrl + q
 
 id_rsa.pub上传到github
@@ -43,6 +43,9 @@ id_rsa.pub上传到github
 ```
 redis
 
+python3 managy.py shell
+
+from django.core.cache import cache
 def clear():
     for key in cache.keys("*"):
         cache.delete(key)
