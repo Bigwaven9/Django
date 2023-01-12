@@ -31,7 +31,7 @@ class Player extends AcGameObject {
         }
 
         if (this.character_type === "self") {
-            this.fireball_cd = 2;
+            this.fireball_cd = 1.5;
             this.fireball_img = new Image();
             this.fireball_img.src = "https://app4299.acapp.acwing.com.cn/static/image/skill/fireball.png";
 
@@ -138,7 +138,7 @@ class Player extends AcGameObject {
         let fireball = new FireBall(this.playground, this, x, y, radius, vx, vy, color, speed, move_length, 0.01);
         this.fireballs.push(fireball);
 
-        this.fireball_cd = 0.5;
+        this.fireball_cd = 1.5;
 
         return fireball;
     }
@@ -294,7 +294,7 @@ class Player extends AcGameObject {
         if (this.fireball_cd > 0) {
             this.ctx.beginPath();
             this.ctx.moveTo(x * scale, y * scale);
-            this.ctx.arc(x * scale, y * scale, r * scale, 0 - Math.PI / 2, Math.PI * 2 * (1 - this.fireball_cd / 3) - Math.PI / 2, true);
+            this.ctx.arc(x * scale, y * scale, r * scale, 0 - Math.PI / 2, Math.PI * 2 * (1 - this.fireball_cd / 1.5) - Math.PI / 2, true);
             this.ctx.lineTo(x * scale, y * scale);
             this.ctx.fillStyle = "rgba(0, 0, 255, 0.6)";
             this.ctx.fill();
