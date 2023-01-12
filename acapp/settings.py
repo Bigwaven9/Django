@@ -159,3 +159,4 @@ USER_AGENTS_CACHE = 'default'
 
 
 ROOM_CAPACITY = 2
+SITE_ID = 1

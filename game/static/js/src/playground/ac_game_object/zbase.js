@@ -4,8 +4,8 @@ class AcGameObject {
     constructor() {
         AC_GAME_OBJECTS.push(this);
 
-        this.has_called_start = false;  // 是否执行过start函数
-        this.timedelta = 0;  // 当前帧距离上一帧的时间间隔
+        this.has_called_start = false;
+        this.timedelta = 0
         this.uuid = this.create_uuid();
     }
 
@@ -18,16 +18,16 @@ class AcGameObject {
         return ret;
     }
 
-    start() {  // 只会在第一帧执行一次
+    start() {
     }
 
-    update() {  // 每一帧均会执行一次
+    update() {
     }
 
-    on_destroy() {  // 在被销毁前执行一次
+    on_destroy() {
     }
 
-    destroy() {  // 删掉该物体
+    destroy() {
         this.on_destroy();
 
         for (let i = 0; i < AC_GAME_OBJECTS.length; i ++ ) {

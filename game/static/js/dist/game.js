@@ -63,8 +63,8 @@ class AcGameObject {
     constructor() {
         AC_GAME_OBJECTS.push(this);
 
-        this.has_called_start = false;  // 是否执行过start函数
-        this.timedelta = 0;  // 当前帧距离上一帧的时间间隔
+        this.has_called_start = false;
+        this.timedelta = 0
         this.uuid = this.create_uuid();
     }
 
@@ -77,16 +77,16 @@ class AcGameObject {
         return ret;
     }
 
-    start() {  // 只会在第一帧执行一次
+    start() {
     }
 
-    update() {  // 每一帧均会执行一次
+    update() {
     }
 
-    on_destroy() {  // 在被销毁前执行一次
+    on_destroy() {
     }
 
-    destroy() {  // 删掉该物体
+    destroy() {
         this.on_destroy();
 
         for (let i = 0; i < AC_GAME_OBJECTS.length; i ++ ) {
@@ -246,6 +246,9 @@ class Player extends AcGameObject {
         if (this.character_type !== "bot") {
             this.img = new Image();
             this.img.src = this.photo;
+        } else {
+            this.img = new Image();
+            this.img.src = "https://app4299.acapp.acwing.com.cn/static/image/bot_image/" + Math.floor(Math.random() * 25 + 1).toString()  + ".png";
         }
 
         if (this.character_type === "self") {
@@ -327,8 +330,6 @@ class Player extends AcGameObject {
                 return true;
             }
 
-            
-
             if (e.which === 81) {
                 if (this.fireball_cd > outer.eps) {
                     return true;
@@ -336,6 +337,7 @@ class Player extends AcGameObject {
                 outer.cur_skill = "fireball";
                 return false;
             } else if (e.which === 70) {
+                
                 if (this.flash_cd > outer.eps) {
                     return true;
                 }
@@ -446,9 +448,11 @@ class Player extends AcGameObject {
         
         if (this.character_type === "bot" && this.spent_time > 4 && Math.random() < 1 / 300.0) {
             let player = this.playground.players[Math.floor(Math.random() * this.playground.players.length)];
-            let tx = player.x + player.speed * this.vx * this.timedelta / 1000 * 0.3;
-            let ty = player.y + player.speed * this.vy * this.timedelta / 1000 * 0.3;
-            this.shoot_fireball(tx, ty);
+            if (player !== this) {
+                let tx = player.x + player.speed * this.vx * this.timedelta / 1000 * 0.3;
+                let ty = player.y + player.speed * this.vy * this.timedelta / 1000 * 0.3;
+                this.shoot_fireball(tx, ty);
+            }
         }
 
         if (this.damage_speed > this.eps) {
@@ -477,20 +481,20 @@ class Player extends AcGameObject {
 
     render() {
         let scale = this.playground.scale;
-        if (this.character_type != "bot") {
-            this.ctx.save();
-            this.ctx.beginPath();
-            this.ctx.arc(this.x * scale, this.y * scale, this.radius * scale, 0, Math.PI * 2, false);
-            this.ctx.stroke();
-            this.ctx.clip();
-            this.ctx.drawImage(this.img, (this.x - this.radius) * scale, (this.y - this.radius) * scale, this.radius * scale * 2, this.radius * scale * 2); 
-            this.ctx.restore();
-        } else {
-            this.ctx.beginPath();
-            this.ctx.arc(this.x * scale, this.y * scale, this.radius * scale, 0, Math.PI * 2, false);
-            this.ctx.fillStyle = this.color;
-            this.ctx.fill();
-        }
+        // if (this.character_type != "bot") {
+        this.ctx.save();
+        this.ctx.beginPath();
+        this.ctx.arc(this.x * scale, this.y * scale, this.radius * scale, 0, Math.PI * 2, false);
+        this.ctx.stroke();
+        this.ctx.clip();
+        this.ctx.drawImage(this.img, (this.x - this.radius) * scale, (this.y - this.radius) * scale, this.radius * scale * 2, this.radius * scale * 2); 
+        this.ctx.restore();
+        // } else {
+        //     this.ctx.beginPath();
+        //     this.ctx.arc(this.x * scale, this.y * scale, this.radius * scale, 0, Math.PI * 2, false);
+        //     this.ctx.fillStyle = this.color;
+        //     this.ctx.fill();
+        // }
 
         if (this.character_type === "self" && this.playground.state === "game_start") {
             this.render_skill_cd()

@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from game.models.player.player import Player
+from random import randint
 
 def register(request):
     data = request.GET
@@ -23,7 +24,7 @@ def register(request):
     user = User(username = username)
     user.set_password(password)
     user.save()
-    Player.objects.create(user = user, photo = "https://app4299.acapp.acwing.com.cn/static/image/test_image.jpeg")
+    Player.objects.create(user = user, photo = "https://app4299.acapp.acwing.com.cn/static/image/initial_image/" + str(randint(1, 37)) + ".png")
     login(request, user)
     return JsonResponse({
         'result': "success",
