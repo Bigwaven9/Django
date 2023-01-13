@@ -43,7 +43,7 @@ id_rsa.pub上传到github
 ```
 redis
 
-python3 managy.py shell
+python3 manage.py shell
 
 from django.core.cache import cache
 def clear():
