@@ -48,8 +48,8 @@ class Pool:
     
     def match_success(self, ps):
         print("Match Success: %s %s %s" % (ps[0].username, ps[1].username, ps[2].username))
-        players = []
         room_name = "room-%s-%s-%s" % (ps[0].uuid, ps[1].uuid, ps[2].uuid)
+        players = []
         for p in ps:
             async_to_sync(channel_layer.group_add)(room_name, p.channel_name)
             players.append({
@@ -58,16 +58,17 @@ class Pool:
                 'photo': p.photo,
                 'hp': 100,
             })
-        cache.set(room_name, players, 3600)
+        print("OKOKOK     !!!!!!!")
+        cache.set(room_name, players, 3600)  # 有效时间：1小时
         for p in ps:
             async_to_sync(channel_layer.group_send)(
                 room_name,
                 {
-                    'type': "group_sent_event",
+                    'type': "group_send_event",
                     'event': "create_player",
                     'uuid': p.uuid,
-                    'photo': p.photo,
                     'username': p.username,
+                    'photo': p.photo,
                 }
             )
     
