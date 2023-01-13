@@ -448,11 +448,9 @@ class Player extends AcGameObject {
         
         if (this.character_type === "bot" && this.spent_time > 4 && Math.random() < 1 / 300.0) {
             let player = this.playground.players[Math.floor(Math.random() * this.playground.players.length)];
-            if (player !== this) {
-                let tx = player.x + player.speed * this.vx * this.timedelta / 1000 * 0.3;
-                let ty = player.y + player.speed * this.vy * this.timedelta / 1000 * 0.3;
-                this.shoot_fireball(tx, ty);
-            }
+            let tx = player.x + player.speed * this.vx * this.timedelta / 1000 * 0.3;
+            let ty = player.y + player.speed * this.vy * this.timedelta / 1000 * 0.3;
+            this.shoot_fireball(tx, ty);
         }
 
         if (this.damage_speed > this.eps) {
