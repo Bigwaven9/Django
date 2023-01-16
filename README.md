@@ -17,7 +17,7 @@ ssh-copy-id server
 配置docker
 
 在acserver上scp
-scp .bashrc .vimrc .tmux.config server: 
+scp .bashrc .vimrc .tmux.conf server: 
 
 
 sudo apt-get update
