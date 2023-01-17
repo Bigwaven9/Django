@@ -61,3 +61,16 @@ uwsgi
 uwsgi --ini scripts/uwsgi.ini
  
 ```
+```
+root:
+
+   ~/acme.sh/acme.sh --renew -d bgvw.org -d www.bgvw.org
+   /root/.acme.sh/bgvw.org/bgvw.org.key -> cert/acapp.key
+   /root/.acme.sh/bgvw.org/fullchain.cer -> cert/acapp.pem
+
+
+sudo /etc/init.d/nginx start
+nginx -s reload
+
+
+```
