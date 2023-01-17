@@ -40,7 +40,7 @@ class Settings {
                             or you can sign in with.
                             <br>
                             <br>
-                            <img class="ac-game-settings-login-image" width="30" src="https://app4299.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
+                            <img class="ac-game-settings-login-image" width="30" src="https://bgvw.org/static/image/settings/acwing_logo.png">
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ class Settings {
                         <div>
                             Sign in with Acwing
                             <br>
-                            <img class=ac-game width="30" src="https://app4299.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
+                            <img class=ac-game width="30" src="https://bgvw.org/static/image/settings/acwing_logo.png">
                         </div>
                     </div>
                 </div>
@@ -155,7 +155,7 @@ class Settings {
         this.$login_error_message.empty();
 
         $.ajax({
-            url: "https://app4299.acapp.acwing.com.cn/settings/login/",
+            url: "https://bgvw.org/settings/login/",
             type: "GET",
             data: {
                 username: username,
@@ -179,7 +179,7 @@ class Settings {
         this.$register_error_message.empty();
 
         $.ajax({
-            url: "https://app4299.acapp.acwing.com.cn/settings/register/",
+            url: "https://bgvw.org/settings/register/",
             type: "GET",
             data: {
                 username: username,
@@ -202,7 +202,7 @@ class Settings {
             return false;
         } else {
             $.ajax({
-                url: "https://app4299.acapp.acwing.com.cn/settings/logout/",
+                url: "https://bgvw.org/settings/logout/",
                 type: "GET",
                 success: function(resp) {
                     if (resp.result === "success") {
@@ -227,7 +227,7 @@ class Settings {
         let outer = this;
 
         $.ajax({
-            url: "https://app165.acapp.acwing.com.cn/settings/acwing/acapp/apply_code/",
+            url: "https://bgvw.org/settings/acwing/acapp/apply_code/",
             type: "GET",
             success: function(resp) {
                 if (resp.result === "success") {
@@ -244,7 +244,7 @@ class Settings {
             let outer = this;
 
             $.ajax({
-                url: "https://app4299.acapp.acwing.com.cn/settings/getinfo/",
+                url: "https://bgvw.org/settings/getinfo/",
                 type: "GET",
                 data: {
                     platform: outer.platform,

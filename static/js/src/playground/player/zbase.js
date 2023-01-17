@@ -36,11 +36,11 @@ class Player extends AcGameObject {
         if (this.character_type === "self") {
             this.fireball_cd = 1.5;
             this.fireball_img = new Image();
-            this.fireball_img.src = "https://app4299.acapp.acwing.com.cn/static/image/skill/fireball.png";
+            this.fireball_img.src = "https://bgvw.org/static/image/skill/fireball.png";
 
             this.flash_cd = 3;
             this.flash_img = new Image();
-            this.flash_img.src = "https://app4299.acapp.acwing.com.cn/static/image/skill/flash.png";
+            this.flash_img.src = "https://bgvw.org/static/image/skill/flash.png";
         }
     }
 
