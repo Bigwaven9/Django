@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-%x1oej#@w5n*uo%)viea!il*d^5e$gz#lzzad!puk3795mdc#j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["45.63.69.92", "app4299.acapp.acwing.com.cn", "34.72.193.234", "bgvw.org", "www.bgvw.org"]
+ALLOWED_HOSTS = ["34.72.193.234", "bgvw.org", "www.bgvw.org"]
 
 
 # Application definition
@@ -158,5 +158,5 @@ USER_AGENTS_CACHE = 'default'
 
 
 
-ROOM_CAPACITY = 3
+ROOM_CAPACITY = 2
 SITE_ID = 1

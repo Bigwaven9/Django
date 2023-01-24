@@ -22,6 +22,7 @@ class MultiPlayer(AsyncWebsocketConsumer):
 
 
     async def create_player(self, data):
+        print("receive!!!!!!!!!!!!!!!!!!!!!!!!!!")
         self.room_name = None
         self.uuid = data['uuid']
         # Make socket
@@ -74,6 +75,36 @@ class MultiPlayer(AsyncWebsocketConsumer):
         )
 
     async def attack(self, data):
+        if not self.room_name:
+            return
+        players = cache.get(self.room_name)
+
+        if not players:
+            return
+
+        for player in players:
+            if player['uuid'] == data['attackee_uuid']:
+                player['hp'] -= 25
+
+        remain_cnt = 0
+        for player in players:
+            if player['hp'] > 0:
+                remain_cnt += 1
+
+        if remain_cnt > 1:
+            if self.room_name:
+                cache.set(self.room_name, players, 3600)
+        else:
+            def db_update_player_score(username, score):
+                player = Player.objects.get(user__username=username)
+                player.score += score
+                player.save()
+            for player in players:
+                if player['hp'] <= 0:
+                    await database_sync_to_async(db_update_player_score)(player['username'], -5)
+                else:
+                    await database_sync_to_async(db_update_player_score)(player['username'], 10)
+
         await self.channel_layer.group_send(
             self.room_name,
             {
@@ -122,3 +153,15 @@ class MultiPlayer(AsyncWebsocketConsumer):
             if len(keys):
                 self.room_name = keys[0]
         await self.send(text_data = json.dumps(data))
+    
+    async def message(self, data):
+        await self.channel_layer.group_send(
+            self.room_name,
+            {
+                'type': "group_send_event",
+                'event': "message",
+                'uuid': data['uuid'],
+                'username': data['username'],
+                'text': data['text'],
+            }
+        )
