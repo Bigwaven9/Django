@@ -30,7 +30,7 @@ class Player extends AcGameObject {
             this.img.src = this.photo;
         } else {
             this.img = new Image();
-            this.img.src = "https://app4299.acapp.acwing.com.cn/static/image/bot_image/" + Math.floor(Math.random() * 25 + 1).toString()  + ".png";
+            this.img.src = "https://bgvw.org/static/image/bot_image/" + Math.floor(Math.random() * 25 + 1).toString()  + ".png";
         }
 
         if (this.character_type === "self") {
@@ -261,7 +261,6 @@ class Player extends AcGameObject {
 
     render() {
         let scale = this.playground.scale;
-        // if (this.character_type != "bot") {
         this.ctx.save();
         this.ctx.beginPath();
         this.ctx.arc(this.x * scale, this.y * scale, this.radius * scale, 0, Math.PI * 2, false);
@@ -269,12 +268,6 @@ class Player extends AcGameObject {
         this.ctx.clip();
         this.ctx.drawImage(this.img, (this.x - this.radius) * scale, (this.y - this.radius) * scale, this.radius * scale * 2, this.radius * scale * 2); 
         this.ctx.restore();
-        // } else {
-        //     this.ctx.beginPath();
-        //     this.ctx.arc(this.x * scale, this.y * scale, this.radius * scale, 0, Math.PI * 2, false);
-        //     this.ctx.fillStyle = this.color;
-        //     this.ctx.fill();
-        // }
 
         if (this.character_type === "self" && this.playground.state === "game_start") {
             this.render_skill_cd()
