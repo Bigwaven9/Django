@@ -39,6 +39,7 @@ id_rsa.pub to github
 ```
 ```
 redis
+sudo apt-get install redis-server
 
 python3 manage.py shell
 
