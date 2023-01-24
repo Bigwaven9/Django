@@ -1,7 +1,5 @@
 NOTES
 ```
-免密登陆
-
 cd .ssh/
 vim config
 
@@ -14,7 +12,7 @@ ssh-copy-id server
 ```
 
 ```
-配置docker
+docker
 
 在acserver上scp
 scp .bashrc .vimrc .tmux.conf server: 
@@ -22,23 +20,22 @@ scp .bashrc .vimrc .tmux.conf server:
 
 sudo apt-get update
 sudo apt-get install tmux
-跟着 https://docs.docker.com/engine/install/ubuntu/
+https://docs.docker.com/engine/install/ubuntu/
 
 
-scp /var/lib/acwing/docker/images/docker_lesson_1_0.tar server:
+scp dockerfilexxxxxx.tar server:
 docker load -i docker_lesson_1_0.tar
 docker run -p 20000:22 --name my_docker_server -itd docker_lesson:1.0
 
 
-创建用户
 adduser acs
 usermod -aG sudo acs
 
 
-挂起容器
+docker attach
 Ctrl + p  Ctrl + q
 
-id_rsa.pub上传到github
+id_rsa.pub to github
 ```
 ```
 redis
