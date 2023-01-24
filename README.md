@@ -67,7 +67,7 @@ root:
 
 
 sudo /etc/init.d/nginx start
-nginx -s reload
+sudo nginx -s reload
 
 
 ```
