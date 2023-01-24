@@ -3,6 +3,7 @@ import json
 from django.conf import settings
 from django.core.cache import cache
 
+from thrift import Thrift
 from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
