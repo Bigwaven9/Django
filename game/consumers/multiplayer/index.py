@@ -26,7 +26,7 @@ class MultiPlayer(AsyncWebsocketConsumer):
         self.uuid = data['uuid']
         # Make socket
         transport = TSocket.TSocket('127.0.0.1', 9090)
-        # Buffering is critical. Raw sockets are very slow  
+        # Buffering is critical. Raw sockets are very slow
         transport = TTransport.TBufferedTransport(transport)
 
         # Wrap in a protocol
@@ -49,16 +49,16 @@ class MultiPlayer(AsyncWebsocketConsumer):
         transport.close()
 
     async def move_to(self, data):
-        await self.channel_layer.group_send(
-            self.room_name,
-            {
-                'type': "group_send_event",
-                'event': "move_to",
-                'uuid': data['uuid'],
-                'tx': data['tx'],
-                'ty': data['ty'],
-            }
-        )
+    await self.channel_layer.group_send(
+        self.room_name,
+        {
+            'type': "group_send_event",
+            'event': "move_to",
+            'uuid': data['uuid'],
+            'tx': data['tx'],
+            'ty': data['ty'],
+        }
+    )
     
     async def shoot_fireball(self, data):
         await self.channel_layer.group_send(
@@ -145,11 +145,13 @@ class MultiPlayer(AsyncWebsocketConsumer):
             await self.attack(data)
         elif event == "flash":
             await self.flash(data)
+        elif event == "message":
+            await self.message(data)
  
     async def group_send_event(self, data):
         if not self.room_name:
             keys = cache.keys('*%s*' % (self.uuid))
-            if len(keys):
+            if keys:
                 self.room_name = keys[0]
         await self.send(text_data = json.dumps(data))
     
