@@ -79,4 +79,5 @@ sudo apt-get install npm
 mkdir npm
 cd npm
 sudo npm install terser -g
+terser xxx.js -c -m                             (compress, mangle names)
 ```
