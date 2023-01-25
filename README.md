@@ -72,3 +72,11 @@ sudo nginx -s reload
 
 
 ```
+```
+sudo apt-get update
+sudo apt-get install npm
+
+mkdir npm
+cd npm
+sudo npm install terser -g
+```
