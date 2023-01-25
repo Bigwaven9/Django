@@ -22,7 +22,6 @@ class MultiPlayer(AsyncWebsocketConsumer):
 
 
     async def create_player(self, data):
-        print("receive!!!!!!!!!!!!!!!!!!!!!!!!!!")
         self.room_name = None
         self.uuid = data['uuid']
         # Make socket
