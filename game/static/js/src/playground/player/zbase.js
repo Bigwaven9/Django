@@ -48,7 +48,7 @@ class Player extends AcGameObject {
         this.playground.player_count ++ ;
         this.playground.notice_board.write("Waiting to start, " + this.playground.player_count + " people are ready.");
 
-        if (this.playground.player_count >= 2) {
+        if (this.playground.player_count >= 3) {
             this.playground.state = "game_start";
             this.playground.notice_board.destroy();
         }
@@ -140,7 +140,8 @@ class Player extends AcGameObject {
         let fireball = new FireBall(this.playground, this, x, y, radius, vx, vy, color, speed, move_length, 0.01);
         this.fireballs.push(fireball);
 
-        this.fireball_cd = 1.5;
+        // this.fireball_cd = 1.5;
+        this.fireball_cd = 0;
 
         return fireball;
     }
@@ -211,11 +212,19 @@ class Player extends AcGameObject {
     update() {
         this.spent_time += this.timedelta / 1000;
 
+        this.update_win();
+
         if (this.character_type === "self" && this.playground.state === "game_start") {
             this.update_cd();
         }
         this.update_move();
         this.render();
+    }
+
+    update_win() {
+        if (this.playground.state === "game_start" && this.character_type === "self" && this.playground.players.length === 1) {
+            this.playground.score_board.win();
+        }
     }
 
     update_cd() {
@@ -316,7 +325,9 @@ class Player extends AcGameObject {
 
     on_destroy() {
         if (this.character_type === "self") {
-            this.playground.state = "game_over";
+            if (this.playground.state === "game_start")
+            this.playground.state = "over";
+            this.playground.score_board.lose();
         }
         for (let i = 0; i < this.playground.players.length; i ++ ) {
             if (this.playground.players[i] === this) {

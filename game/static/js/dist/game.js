@@ -83,6 +83,10 @@ class AcGameObject {
     update() {
     }
 
+    late_update() {
+
+    }
+
     on_destroy() {
     }
 
@@ -110,6 +114,12 @@ let AC_GAME_ANIMATION = function(timestamp) {
             obj.update();
         }
     }
+
+    for (let i = 0; i < AC_GAME_OBJECTS.length; i ++ ) {
+        let obj = AC_GAME_OBJECTS[i];
+        obj.late_update();
+    }
+
     last_timestamp = timestamp;
 
     requestAnimationFrame(AC_GAME_ANIMATION);
@@ -266,7 +276,7 @@ class Player extends AcGameObject {
         this.playground.player_count ++ ;
         this.playground.notice_board.write("Waiting to start, " + this.playground.player_count + " people are ready.");
 
-        if (this.playground.player_count >= 2) {
+        if (this.playground.player_count >= 3) {
             this.playground.state = "game_start";
             this.playground.notice_board.destroy();
         }
@@ -358,7 +368,8 @@ class Player extends AcGameObject {
         let fireball = new FireBall(this.playground, this, x, y, radius, vx, vy, color, speed, move_length, 0.01);
         this.fireballs.push(fireball);
 
-        this.fireball_cd = 1.5;
+        // this.fireball_cd = 1.5;
+        this.fireball_cd = 0;
 
         return fireball;
     }
@@ -429,11 +440,19 @@ class Player extends AcGameObject {
     update() {
         this.spent_time += this.timedelta / 1000;
 
+        this.update_win();
+
         if (this.character_type === "self" && this.playground.state === "game_start") {
             this.update_cd();
         }
         this.update_move();
         this.render();
+    }
+
+    update_win() {
+        if (this.playground.state === "game_start" && this.character_type === "self" && this.playground.players.length === 1) {
+            this.playground.score_board.win();
+        }
     }
 
     update_cd() {
@@ -534,7 +553,9 @@ class Player extends AcGameObject {
 
     on_destroy() {
         if (this.character_type === "self") {
-            this.playground.state = "game_over";
+            if (this.playground.state === "game_start")
+            this.playground.state = "over";
+            this.playground.score_board.lose();
         }
         for (let i = 0; i < this.playground.players.length; i ++ ) {
             if (this.playground.players[i] === this) {
@@ -544,7 +565,65 @@ class Player extends AcGameObject {
         }
     }
 }
-class FireBall extends AcGameObject {
+class ScoreBoard extends AcGameObject {
+    constructor(playground) {
+        super();
+
+        this.playground = playground;
+        this.ctx = this.playground.game_map.ctx;
+
+        this.state = null;
+        this.win_img = new Image();
+        this.win_img.src = "https://bgvw.org/static/image/win_lose/win.png";
+
+        this.lose_img = new Image();
+        this.lose_img.src = "https://bgvw.org/static/image/win_lose/lose.png";
+    }
+
+    start() {
+    }
+
+    add_listening_events() {
+        let outer = this;
+        let $canvas = this.playground.game_map.$canvas;
+
+        $canvas.on('click', function() {
+            outer.playground.hide();
+            outer.playground.root.menu.show();
+        });
+    }
+
+    win() {
+        this.state = "win";
+
+        let outer = this;
+        setTimeout(function() {
+            outer.add_listening_events();
+        }, 1000);
+    }
+
+    lose() {
+        this.state = "lose";
+
+        let outer = this;
+        setTimeout(function() {
+            outer.add_listening_events();
+        }, 1000);
+    }
+
+    late_update() {
+        this.render();
+    }
+
+    render() {
+        let len = this.playground.height / 2;
+        if (this.state === "win") {
+            this.ctx.drawImage(this.win_img, this.playground.width / 2 - len / 2, this.playground.height / 2 - len / 2, len, len);
+        } else if (this.state === "lose") {
+            this.ctx.drawImage(this.lose_img, this.playground.width / 2 - len / 2, this.playground.height / 2 - len / 2, len, len);
+        }
+    }
+}class FireBall extends AcGameObject {
     constructor(playground, player, x, y, radius, vx, vy, color, speed, move_length, damage) {
         super();
         this.playground = playground;
@@ -804,11 +883,27 @@ class MultiPlaerSocker {
         return colors[Math.floor(Math.random() * 5)];
     }
 
+    create_uuid() {
+        let ret = "";
+        for (let i = 0; i < 10; i ++ ) {
+            let x = parseInt(Math.floor(Math.random() * 10));
+            ret += x;
+        }
+        return ret;
+    }
+
     start() {
         let outer = this;
-        $(window).resize(function() {
+        let uuid = this.create_uuid();
+        $(window).on(`resize.${uuid}`, function() {
             outer.resize();
         });
+
+        if (this.root.acappos) {
+            this.root.acappos.api.window.on_close(function() {
+                $(window).off(`resize.${uuid}`);
+            });
+        }
     }
 
     resize() {
@@ -832,6 +927,7 @@ class MultiPlaerSocker {
         this.mode = mode;
         this.state = "waiting";
         this.notice_board = new NoticeBoard(this);
+        this.score_board = new ScoreBoard(this);
         this.player_count = 0;
 
         this.resize();
@@ -856,6 +952,27 @@ class MultiPlaerSocker {
     }
 
     hide() {
+        while (this.players && this.players.length > 0) {
+            this.players[0].destroy();
+        }
+
+        if (this.game_map) {
+            this.game_map.destroy();
+            this.game_map = null;
+        }
+
+        if (this.notice_board) {
+            this.notice_board.destroy();
+            this.notice_board = null;
+        }
+
+        if (this.score_board) {
+            this.score_board.destroy();
+            this.score_board = null;
+        }
+
+        this.$playground.empty();
+
         this.$playground.hide();
     }
 }
