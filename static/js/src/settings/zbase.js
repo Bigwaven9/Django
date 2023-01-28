@@ -137,6 +137,32 @@ class Settings {
                 }
             })
         }, 270000);
+
+        // setTimeout( () => {
+        //     $.ajax({
+        //         url: "https://bgvw.org/settings/token/ranklist/",
+        //         type: "get",
+        //         headers: {
+        //             'Authorization': "Bigwave " + this.root.access,
+        //         },
+        //         success: resp => {
+        //             console.log(resp);
+        //         }
+        //     })
+        // }, 5000);
+        setTimeout(() => {
+            $.ajax({
+                url: "https://bgvw.org/settings/ranklist/",
+                type: "get",
+                headers: {
+                    'Authorization': "Bigwave " + this.root.access,
+                },
+                success: resp => {
+                    console.log(resp);
+                }
+            });
+        }, 5000);
+
     }
 
     add_listening_events() {
