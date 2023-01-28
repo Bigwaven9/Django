@@ -81,3 +81,15 @@ cd npm
 sudo npm install terser -g
 terser xxx.js -c -m                             (compress, mangle names)
 ```
+```
+
+JWT / djangorestframework
+
+pip install djangorestframework
+pip install pyjwt
+pip install djangorestframework-simplejwt
+
+
+
+
+```
