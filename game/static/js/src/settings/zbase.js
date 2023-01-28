@@ -114,59 +114,78 @@ class Settings {
     }
 
     start() {
-        this.getinfo();
+        if (this.root.access) {
+            this.getinfo();
+            this.refresh_jwt_token();
+        } else {
+            this.login();
+        }
+        this.add_listening_events();
+    }
+
+    refresh_jwt_token() {
+        setInterval( () => {
+            $.ajax({
+                url: "https://bgvw.org/settings/token/refresh/",
+                type: "post",
+                data: {
+                    refresh: this.root.refresh,
+                },
+                success: resp => {
+                    this.root.access = resp.access;
+                    console.log(resp);
+                }
+            })
+        }, 270000);
     }
 
     add_listening_events() {
-        let outer = this;
         this.add_listening_events_login();
         this.add_listening_events_register();
 
-        this.$acwing_login.click(function() {
-            outer.acwing_login();
+        this.$acwing_login.click( () => {
+            this.acwing_login();
         });
     }
 
     add_listening_events_login() {
-        let outer = this;
-
-        this.$login_register.click(function() {
-            outer.register();
+        this.$login_register.click( () => {
+            this.register();
         });
-        this.$login_submit.click(function() {
-            outer.login_on_remote();
+        this.$login_submit.click( () =>  {
+            this.login_on_remote();
         });
     }
 
     add_listening_events_register() {
-        let outer = this;
-        this.$register_login.click(function() {
-            outer.login();
+        this.$register_login.click( () => {
+            this.login();
         });
-        this.$register_submit.click(function() {
-            outer.register_on_remote();
+        this.$register_submit.click( () => {
+            this.register_on_remote();
         });
     }
 
     login_on_remote() {  // 在远程服务器上登录
-        let outer = this;
         let username = this.$login_username.val();
         let password = this.$login_password.val();
         this.$login_error_message.empty();
 
         $.ajax({
-            url: "https://bgvw.org/settings/login/",
-            type: "GET",
+            url: "https://bgvw.org/settings/token/",
+            type: "POST",
             data: {
                 username: username,
                 password: password,
             },
-            success: function(resp) {
-                if (resp.result === "success") {
-                    location.reload();
-                } else {
-                    outer.$login_error_message.html(resp.result);
-                }
+            success: resp => {
+                this.root.access = resp.access;
+                this.root.refresh = resp.refresh;
+                this.refresh_jwt_token();
+                this.getinfo();
+            },
+            error: ()=> {
+                this.$login_error_message.html("Wrong username or password.");
             }
         });
     }
@@ -201,15 +220,9 @@ class Settings {
             this.root.acappos.api.window.close();
             return false;
         } else {
-            $.ajax({
-                url: "https://bgvw.org/settings/logout/",
-                type: "GET",
-                success: function(resp) {
-                    if (resp.result === "success") {
-                        location.reload();
-                    }
-                }
-            });
+            this.root.access = "";
+            this.root.refresh = "";
+            location.href = "/";
         }
     }
 
@@ -241,26 +254,26 @@ class Settings {
         if (this.platform === "ACAPP") {
             this.getinfo_acapp();
         } else {
-            let outer = this;
-
             $.ajax({
                 url: "https://bgvw.org/settings/getinfo/",
-                type: "GET",
+                type: "get",
                 data: {
-                    platform: outer.platform,
+                    platform: this.platform,
                 },
-                success: function(resp) {
+                headers: {
+                    'Authorization': "Bigwave " + this.root.access,
+                },
+                success: resp => {
                     if (resp.result === "success") {
-                        outer.username = resp.username;
-                        outer.photo = resp.photo;
-                        outer.hide();
-                        outer.root.menu.show();
+                        this.username = resp.username;
+                        this.photo = resp.photo;
+                        this.hide();
+                        this.root.menu.show();
                     } else {
-                        outer.login();
+                        this.login();
                     }
                 }
             });
-            this.add_listening_events();
         }        
     }
 

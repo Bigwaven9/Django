@@ -49,16 +49,16 @@ class MultiPlayer(AsyncWebsocketConsumer):
         transport.close()
 
     async def move_to(self, data):
-    await self.channel_layer.group_send(
-        self.room_name,
-        {
-            'type': "group_send_event",
-            'event': "move_to",
-            'uuid': data['uuid'],
-            'tx': data['tx'],
-            'ty': data['ty'],
-        }
-    )
+        await self.channel_layer.group_send(
+            self.room_name,
+            {
+                'type': "group_send_event",
+                'event': "move_to",
+                'uuid': data['uuid'],
+                'tx': data['tx'],
+                'ty': data['ty'],
+            }
+        )
     
     async def shoot_fireball(self, data):
         await self.channel_layer.group_send(
