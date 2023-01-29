@@ -2,7 +2,7 @@ class MultiPlaerSocker {
     constructor(playground) {
         this.playground = playground
 
-        this.ws = new WebSocket("wss://bgvw.org/wss/multiplayer/");
+        this.ws = new WebSocket("wss://bgvw.org/wss/multiplayer/?token=" + playground.root.access);
         this.start();
     }
 
