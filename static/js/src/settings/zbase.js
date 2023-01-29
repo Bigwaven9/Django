@@ -137,19 +137,7 @@ class Settings {
                 }
             })
         }, 270000);
-
-        // setTimeout( () => {
-        //     $.ajax({
-        //         url: "https://bgvw.org/settings/token/ranklist/",
-        //         type: "get",
-        //         headers: {
-        //             'Authorization': "Bigwave " + this.root.access,
-        //         },
-        //         success: resp => {
-        //             console.log(resp);
-        //         }
-        //     })
-        // }, 5000);
+        
         setTimeout(() => {
             $.ajax({
                 url: "https://bgvw.org/settings/ranklist/",
@@ -192,9 +180,9 @@ class Settings {
         });
     }
 
-    login_on_remote() {  // 在远程服务器上登录
-        let username = this.$login_username.val();
-        let password = this.$login_password.val();
+    login_on_remote(username, password) {  // 在远程服务器上登录
+        username = username || this.$login_username.val();
+        password = password || this.$login_password.val();
         this.$login_error_message.empty();
 
         $.ajax({
@@ -217,7 +205,6 @@ class Settings {
     }
 
     register_on_remote() {  // 在远程服务器上注册
-        let outer = this;
         let username = this.$register_username.val();
         let password = this.$register_password.val();
         let password_confirm = this.$register_password_confirm.val();
@@ -225,17 +212,17 @@ class Settings {
 
         $.ajax({
             url: "https://bgvw.org/settings/register/",
-            type: "GET",
+            type: "post",
             data: {
-                username: username,
-                password: password,
-                password_confirm: password_confirm,
+                username,
+                password,
+                password_confirm,
             },
-            success: function(resp) {
+            success: resp => {
                 if (resp.result === "success") {
-                    location.reload();  // 刷新页面
+                    this.login_on_remote(username, password);
                 } else {
-                    outer.$register_error_message.html(resp.result);
+                    this.$register_error_message.html(resp.result);
                 }
             }
         });
