@@ -72,8 +72,6 @@ class Player extends AcGameObject {
             if (outer.playground.state !== "game_start") {
                 return false;
             }
-            
-
             if (e.which === 3) {
                 let tx = (e.clientX - rect.left) / outer.playground.scale;
                 let ty = (e.clientY - rect.top) / outer.playground.scale;

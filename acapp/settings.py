@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["34.72.193.234", "bgvw.org", "www.bgvw.org"]
 # Application definition
 
 INSTALLED_APPS = [
+    'oauth2_provider',
     'rest_framework',
     'rest_framework_simplejwt',
     'channels',
@@ -61,7 +62,7 @@ ROOT_URLCONF = 'acapp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -167,7 +168,10 @@ SITE_ID = 1
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.permissions.TokenHasReadWriteScope',
+    ),
 }
 
 SIMPLE_JWT = {
@@ -185,7 +189,7 @@ SIMPLE_JWT = {
     'JWK_URL': None,
     'LEEWAY': 0,
 
-    'AUTH_HEADER_TYPES': ('Bigwave',),
+    'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
@@ -201,3 +205,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+GITHUB_CLIENT_ID = "135ba9a760ba4df1ea20"
+GITHUB_CLIENT_SECRET = "5a810cac8497d1cfa692b11a563f47a63a2e46c7"
+REDIRECT = "http://bgvw.org/settings/callback/"

@@ -6,7 +6,6 @@ class Settings {
         this.username = "";
         this.photo = "";
 
-
         this.$settings = $(`
             <div class="ac-game-settings">
                 <div class="ac-game-settings-login">
@@ -40,7 +39,7 @@ class Settings {
                             or you can sign in with.
                             <br>
                             <br>
-                            <img class="ac-game-settings-login-image" width="30" src="https://bgvw.org/static/image/settings/acwing_logo.png">
+                            <img class="ac-game-settings-login-image" width="30" src="https://bgvw.org/static/image/settings/github-mark.png">
                         </div>
                     </div>
                 </div>
@@ -82,7 +81,7 @@ class Settings {
                         <div>
                             Sign in with Acwing
                             <br>
-                            <img class=ac-game width="30" src="https://bgvw.org/static/image/settings/acwing_logo.png">
+                            <img class=ac-game width="30" src="https://bgvw.org/static/image/settings/github-mark.png">
                         </div>
                     </div>
                 </div>
@@ -107,7 +106,7 @@ class Settings {
         this.$register.hide();
 
 
-        this.$acwing_login = this.$settings.find('.ac-game-settings-acwing img');
+        this.$github_login = this.$settings.find('.ac-game-settings-acwing img');
 
         this.root.$ac_game.append(this.$settings);
         this.start();
@@ -143,7 +142,7 @@ class Settings {
                 url: "https://bgvw.org/settings/ranklist/",
                 type: "get",
                 headers: {
-                    'Authorization': "Bigwave " + this.root.access,
+                    'Authorization': "Bearer " + this.root.access,
                 },
                 success: resp => {
                     console.log(resp);
@@ -157,9 +156,31 @@ class Settings {
         this.add_listening_events_login();
         this.add_listening_events_register();
 
-        this.$acwing_login.click( () => {
-            this.acwing_login();
+        this.$github_login.click( () => {
+            this.github_login();
         });
+    }
+
+    github_login() {
+        window.location.href = 'settings/login/';
+        
+        // $.ajax({
+        //     url: 'https://bgvw.org/settings/login/',
+        //     success: function(response) {
+        //       // Access the contents of the template in the "response" variable
+        //     }
+        //   });
+        // $.ajax({
+        //     url: "https://bgvw.org/settings/login/",
+        //     success: resp => {
+        //         if (resp.result === "success") {
+        //             console.log(resp);
+        //             this.login_on_remote(resp.username, resp.password);
+        //         } else {
+        //             this.$register_error_message.html(resp.result);
+        //         }
+        //     }
+        // });
     }
 
     add_listening_events_login() {
@@ -274,7 +295,7 @@ class Settings {
                     platform: this.platform,
                 },
                 headers: {
-                    'Authorization': "Bigwave " + this.root.access,
+                    'Authorization': "Bearer " + this.root.access,
                 },
                 success: resp => {
                     if (resp.result === "success") {
