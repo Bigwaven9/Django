@@ -32,8 +32,7 @@ def github_callback(request):
         photo = user_info_dict.get('avatar_url', '')
         password = "xr&q$nwx%#%uygmpxnx^iwt$kbm*mclh"
         register(username, password, photo)
-    # return redirect('/')
-    data = requests.post("https://bgvw.org/settings/token/", json = {
+    data = requests.post("https://www.bgvw.org/settings/token/", json = {
         'username': username,
         'password': "xr&q$nwx%#%uygmpxnx^iwt$kbm*mclh",
     }, 

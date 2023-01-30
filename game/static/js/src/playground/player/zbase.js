@@ -30,17 +30,17 @@ class Player extends AcGameObject {
             this.img.src = this.photo;
         } else {
             this.img = new Image();
-            this.img.src = "https://bgvw.org/static/image/bot_image/" + Math.floor(Math.random() * 25 + 1).toString()  + ".png";
+            this.img.src = "https://www.bgvw.org/static/image/bot_image/" + Math.floor(Math.random() * 25 + 1).toString()  + ".png";
         }
 
         if (this.character_type === "self") {
             this.fireball_cd = 1.5;
             this.fireball_img = new Image();
-            this.fireball_img.src = "https://bgvw.org/static/image/skill/fireball.png";
+            this.fireball_img.src = "https://www.bgvw.org/static/image/skill/fireball.png";
 
             this.flash_cd = 3;
             this.flash_img = new Image();
-            this.flash_img.src = "https://bgvw.org/static/image/skill/flash.png";
+            this.flash_img.src = "https://www.bgvw.org/static/image/skill/flash.png";
         }
     }
 

@@ -25,7 +25,7 @@ class PlayerView(APIView):
         user = User(username = username)
         user.set_password(password)
         user.save()
-        Player.objects.create(user = user, photo = "https://bgvw.org/static/image/initial_image/" + str(randint(1, 37)) + ".png")
+        Player.objects.create(user = user, photo = "https://www.bgvw.org/static/image/initial_image/" + str(randint(1, 37)) + ".png")
         return Response({
             'result': "success",
         })

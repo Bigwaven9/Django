@@ -7,10 +7,10 @@ class ScoreBoard extends AcGameObject {
 
         this.state = null;
         this.win_img = new Image();
-        this.win_img.src = "https://bgvw.org/static/image/win_lose/win.png";
+        this.win_img.src = "https://www.bgvw.org/static/image/win_lose/win.png";
 
         this.lose_img = new Image();
-        this.lose_img.src = "https://bgvw.org/static/image/win_lose/lose.png";
+        this.lose_img.src = "https://www.bgvw.org/static/image/win_lose/lose.png";
     }
 
     start() {
