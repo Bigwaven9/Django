@@ -1,95 +1,20 @@
-NOTES
-```
-cd .ssh/
-vim config
+# [Bgvw](https://www.bgvw.org/) - A Multiplayer Game
 
-Host server
-  HostName xxx.xx.xx.xxx
-  User vagrant
-  
-ssh-keygen
-ssh-copy-id server
-```
+Bgvw is a multiplayer game where players can control characters and fight against each other. The game features a unique control system that allows players to move their characters with the right mouse button, shoot fireballs by pressing "Q" and then clicking the left mouse button, and use a flash ability by pressing "F" and then clicking the left mouse button.
 
-```
-docker
+## How to Play
 
-在acserver上scp
-scp .bashrc .vimrc .tmux.conf server: 
+- Visit the website www.bgvw.com.
+- Login via Github-SSO.
+- Start the game and control your character by clicking the right mouse button to move.
+- Press "Q" and then click the left mouse button to shoot fireballs.
+- Press "F" and then click the left mouse button to use the flash ability.
 
+## Technologies Used
 
-sudo apt-get update
-sudo apt-get install tmux
-https://docs.docker.com/engine/install/ubuntu/
-
-
-scp dockerfilexxxxxx.tar server:
-docker load -i docker_lesson_1_0.tar
-docker run -p 20000:22 --name my_docker_server -itd docker_lesson:1.0
-
-
-adduser acs
-usermod -aG sudo acs
-
-
-docker attach
-Ctrl + p  Ctrl + q
-
-id_rsa.pub to github
-```
-```
-redis
-sudo apt-get install redis-server
-
-python3 manage.py shell
-
-from django.core.cache import cache
-def clear():
-    for key in cache.keys("*"):
-        cache.delete(key)
-        
-
-django channel
-
-daphne -b 0.0.0.0 -p 5015 acapp.asgi:application
-
-
-uwsgi
-
-uwsgi --ini scripts/uwsgi.ini
- 
-```
-```
-root:
-
-   ~/acme.sh/acme.sh --renew -d bgvw.org -d www.bgvw.org
-   /root/.acme.sh/bgvw.org/bgvw.org.key -> cert/acapp.key
-   /root/.acme.sh/bgvw.org/fullchain.cer -> cert/acapp.pem
-
-
-sudo /etc/init.d/nginx start
-sudo nginx -s reload
-
-
-```
-```
-sudo apt-get update
-sudo apt-get install npm
-
-mkdir npm
-cd npm
-sudo npm install terser -g
-terser xxx.js -c -m                             (compress, mangle names)
-```
-```
-
-JWT / djangorestframework
-
-pip install djangorestframework
-pip install pyjwt
-pip install djangorestframework-simplejwt
-
-
-
-
-```
+- Python
+- Django framework
+- Redis
+- Thrift
+- JavaScript
+- HTML & CSS
