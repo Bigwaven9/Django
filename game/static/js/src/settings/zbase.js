@@ -36,7 +36,7 @@ class Settings {
                     <div class="ac-game-settings-acwing">
                         <br>
                         <div>
-                            or you can sign in with.
+                            or you can sign in with
                             <br>
                             <br>
                             <img class="ac-game-settings-login-image" width="30" src="https://www.bgvw.org/static/image/settings/github-mark.png">

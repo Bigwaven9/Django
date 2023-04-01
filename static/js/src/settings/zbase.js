@@ -36,10 +36,10 @@ class Settings {
                     <div class="ac-game-settings-acwing">
                         <br>
                         <div>
-                            or you can sign in with.
+                            or you can sign in with
                             <br>
                             <br>
-                            <img class="ac-game-settings-login-image" width="30" src="https://bgvw.org/static/image/settings/github-mark.png">
+                            <img class="ac-game-settings-login-image" width="30" src="https://www.bgvw.org/static/image/settings/github-mark.png">
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ class Settings {
                         <div>
                             Sign in with Acwing
                             <br>
-                            <img class=ac-game width="30" src="https://bgvw.org/static/image/settings/github-mark.png">
+                            <img class=ac-game width="30" src="https://www.bgvw.org/static/image/settings/github-mark.png">
                         </div>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ class Settings {
     refresh_jwt_token() {
         setInterval( () => {
             $.ajax({
-                url: "https://bgvw.org/settings/token/refresh/",
+                url: "https://www.bgvw.org/settings/token/refresh/",
                 type: "post",
                 data: {
                     refresh: this.root.refresh,
@@ -139,7 +139,7 @@ class Settings {
         
         setTimeout(() => {
             $.ajax({
-                url: "https://bgvw.org/settings/ranklist/",
+                url: "https://www.bgvw.org/settings/ranklist/",
                 type: "get",
                 headers: {
                     'Authorization': "Bearer " + this.root.access,
@@ -163,24 +163,6 @@ class Settings {
 
     github_login() {
         window.location.href = 'settings/login/';
-        
-        // $.ajax({
-        //     url: 'https://bgvw.org/settings/login/',
-        //     success: function(response) {
-        //       // Access the contents of the template in the "response" variable
-        //     }
-        //   });
-        // $.ajax({
-        //     url: "https://bgvw.org/settings/login/",
-        //     success: resp => {
-        //         if (resp.result === "success") {
-        //             console.log(resp);
-        //             this.login_on_remote(resp.username, resp.password);
-        //         } else {
-        //             this.$register_error_message.html(resp.result);
-        //         }
-        //     }
-        // });
     }
 
     add_listening_events_login() {
@@ -207,7 +189,7 @@ class Settings {
         this.$login_error_message.empty();
 
         $.ajax({
-            url: "https://bgvw.org/settings/token/",
+            url: "https://www.bgvw.org/settings/token/",
             type: "POST",
             data: {
                 username: username,
@@ -219,7 +201,7 @@ class Settings {
                 this.refresh_jwt_token();
                 this.getinfo();
             },
-            error: ()=> {
+            error: () => {
                 this.$login_error_message.html("Wrong username or password.");
             }
         });
@@ -232,7 +214,7 @@ class Settings {
         this.$register_error_message.empty();
 
         $.ajax({
-            url: "https://bgvw.org/settings/register/",
+            url: "https://www.bgvw.org/settings/register/",
             type: "post",
             data: {
                 username,
@@ -274,7 +256,7 @@ class Settings {
         let outer = this;
 
         $.ajax({
-            url: "https://bgvw.org/settings/acwing/acapp/apply_code/",
+            url: "https://www.bgvw.org/settings/acwing/acapp/apply_code/",
             type: "GET",
             success: function(resp) {
                 if (resp.result === "success") {
@@ -289,7 +271,7 @@ class Settings {
             this.getinfo_acapp();
         } else {
             $.ajax({
-                url: "https://bgvw.org/settings/getinfo/",
+                url: "https://www.bgvw.org/settings/getinfo/",
                 type: "get",
                 data: {
                     platform: this.platform,

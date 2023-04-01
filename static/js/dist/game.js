@@ -258,17 +258,17 @@ class Player extends AcGameObject {
             this.img.src = this.photo;
         } else {
             this.img = new Image();
-            this.img.src = "https://bgvw.org/static/image/bot_image/" + Math.floor(Math.random() * 25 + 1).toString()  + ".png";
+            this.img.src = "https://www.bgvw.org/static/image/bot_image/" + Math.floor(Math.random() * 25 + 1).toString()  + ".png";
         }
 
         if (this.character_type === "self") {
             this.fireball_cd = 1.5;
             this.fireball_img = new Image();
-            this.fireball_img.src = "https://bgvw.org/static/image/skill/fireball.png";
+            this.fireball_img.src = "https://www.bgvw.org/static/image/skill/fireball.png";
 
             this.flash_cd = 3;
             this.flash_img = new Image();
-            this.flash_img.src = "https://bgvw.org/static/image/skill/flash.png";
+            this.flash_img.src = "https://www.bgvw.org/static/image/skill/flash.png";
         }
     }
 
@@ -571,10 +571,10 @@ class ScoreBoard extends AcGameObject {
 
         this.state = null;
         this.win_img = new Image();
-        this.win_img.src = "https://bgvw.org/static/image/win_lose/win.png";
+        this.win_img.src = "https://www.bgvw.org/static/image/win_lose/win.png";
 
         this.lose_img = new Image();
-        this.lose_img.src = "https://bgvw.org/static/image/win_lose/lose.png";
+        this.lose_img.src = "https://www.bgvw.org/static/image/win_lose/lose.png";
     }
 
     start() {
@@ -717,7 +717,7 @@ class MultiPlaerSocker {
     constructor(playground) {
         this.playground = playground
 
-        this.ws = new WebSocket("wss://bgvw.org/wss/multiplayer/?token=" + playground.root.access);
+        this.ws = new WebSocket("wss://www.bgvw.org/wss/multiplayer/?token=" + playground.root.access);
         this.start();
     }
 
@@ -1008,10 +1008,10 @@ class Settings {
                     <div class="ac-game-settings-acwing">
                         <br>
                         <div>
-                            or you can sign in with.
+                            or you can sign in with
                             <br>
                             <br>
-                            <img class="ac-game-settings-login-image" width="30" src="https://bgvw.org/static/image/settings/github-mark.png">
+                            <img class="ac-game-settings-login-image" width="30" src="https://www.bgvw.org/static/image/settings/github-mark.png">
                         </div>
                     </div>
                 </div>
@@ -1053,7 +1053,7 @@ class Settings {
                         <div>
                             Sign in with Acwing
                             <br>
-                            <img class=ac-game width="30" src="https://bgvw.org/static/image/settings/github-mark.png">
+                            <img class=ac-game width="30" src="https://www.bgvw.org/static/image/settings/github-mark.png">
                         </div>
                     </div>
                 </div>
@@ -1097,7 +1097,7 @@ class Settings {
     refresh_jwt_token() {
         setInterval( () => {
             $.ajax({
-                url: "https://bgvw.org/settings/token/refresh/",
+                url: "https://www.bgvw.org/settings/token/refresh/",
                 type: "post",
                 data: {
                     refresh: this.root.refresh,
@@ -1111,7 +1111,7 @@ class Settings {
         
         setTimeout(() => {
             $.ajax({
-                url: "https://bgvw.org/settings/ranklist/",
+                url: "https://www.bgvw.org/settings/ranklist/",
                 type: "get",
                 headers: {
                     'Authorization': "Bearer " + this.root.access,
@@ -1135,24 +1135,6 @@ class Settings {
 
     github_login() {
         window.location.href = 'settings/login/';
-        
-        // $.ajax({
-        //     url: 'https://bgvw.org/settings/login/',
-        //     success: function(response) {
-        //       // Access the contents of the template in the "response" variable
-        //     }
-        //   });
-        // $.ajax({
-        //     url: "https://bgvw.org/settings/login/",
-        //     success: resp => {
-        //         if (resp.result === "success") {
-        //             console.log(resp);
-        //             this.login_on_remote(resp.username, resp.password);
-        //         } else {
-        //             this.$register_error_message.html(resp.result);
-        //         }
-        //     }
-        // });
     }
 
     add_listening_events_login() {
@@ -1179,7 +1161,7 @@ class Settings {
         this.$login_error_message.empty();
 
         $.ajax({
-            url: "https://bgvw.org/settings/token/",
+            url: "https://www.bgvw.org/settings/token/",
             type: "POST",
             data: {
                 username: username,
@@ -1191,7 +1173,7 @@ class Settings {
                 this.refresh_jwt_token();
                 this.getinfo();
             },
-            error: ()=> {
+            error: () => {
                 this.$login_error_message.html("Wrong username or password.");
             }
         });
@@ -1204,7 +1186,7 @@ class Settings {
         this.$register_error_message.empty();
 
         $.ajax({
-            url: "https://bgvw.org/settings/register/",
+            url: "https://www.bgvw.org/settings/register/",
             type: "post",
             data: {
                 username,
@@ -1246,7 +1228,7 @@ class Settings {
         let outer = this;
 
         $.ajax({
-            url: "https://bgvw.org/settings/acwing/acapp/apply_code/",
+            url: "https://www.bgvw.org/settings/acwing/acapp/apply_code/",
             type: "GET",
             success: function(resp) {
                 if (resp.result === "success") {
@@ -1261,7 +1243,7 @@ class Settings {
             this.getinfo_acapp();
         } else {
             $.ajax({
-                url: "https://bgvw.org/settings/getinfo/",
+                url: "https://www.bgvw.org/settings/getinfo/",
                 type: "get",
                 data: {
                     platform: this.platform,
